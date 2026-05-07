@@ -1,4 +1,4 @@
-package com.example.ms_producto.model;
+package com.example.ms_orden.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,16 +13,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="producto")
-public class Producto {
+@Table(name="orden")
+public class Orden {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nombre;
-    private String descripcion;
-    private double precio;
-    /* Aclaración | En la tabla se comenta sobre la variable imagen,
-    esta no es aplicable, por tanto no se añade........... */
-
+    private int numeroOrden;
+    /* Revisar | No debería estar en String, pero sale más fácil?... */
+    private String fechaCreacion;
+    private String fechaRecibida;
+    private double total;
+    private double descuentoAplicado;
 }

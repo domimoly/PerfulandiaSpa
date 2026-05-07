@@ -1,4 +1,4 @@
-package com.example.ms_producto.model;
+package com.example.ms_cupon_descuento.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,16 +13,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="producto")
-public class Producto {
+@Table(name="cupondescuento")
+public class CuponDescuento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nombre;
-    private String descripcion;
-    private double precio;
-    /* Aclaración | En la tabla se comenta sobre la variable imagen,
-    esta no es aplicable, por tanto no se añade........... */
-
+    private String codigo;
+    private double porcentajeDescuento;
+    private String fechaVencimiento;
+    private boolean activo;
 }
