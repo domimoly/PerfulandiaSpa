@@ -1,12 +1,9 @@
 package com.example.ms_usuario.service;
 
 import java.util.List;
-
 import org.springframework.stereotype.Service;
-
 import com.example.ms_usuario.model.Usuario;
 import com.example.ms_usuario.repository.UsuarioRepository;
-
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
