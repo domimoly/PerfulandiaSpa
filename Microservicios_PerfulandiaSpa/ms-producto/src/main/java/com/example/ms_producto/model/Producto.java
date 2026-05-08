@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="producto")
+@Table(name="productos")
 public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +22,4 @@ public class Producto {
     private String nombre;
     private String descripcion;
     private double precio;
-    /* Aclaración | En la tabla se comenta sobre la variable imagen,
-    esta no es aplicable, por tanto no se añade........... */
-
 }
