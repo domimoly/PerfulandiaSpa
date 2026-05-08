@@ -20,7 +20,6 @@ public class Orden {
     private Long id;
 
     private int numeroOrden;
-    /* Revisar | No debería estar en String, pero sale más fácil?... */
     private String fechaCreacion;
     private String fechaRecibida;
     private double total;
