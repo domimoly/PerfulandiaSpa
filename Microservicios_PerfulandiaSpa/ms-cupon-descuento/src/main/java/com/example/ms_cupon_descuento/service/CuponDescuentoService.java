@@ -53,18 +53,14 @@ public class CuponDescuentoService {
     public double validarYAplicarCupon(String codigo) {
         log.info("Validando cupón con código: {}", codigo);
 
-        // 1 | Verificar si el código existe
         CuponDescuento cupon = CuponRepo.findByCodigo(codigo)
                 .orElseThrow(() -> new EntityNotFoundException("El código de descuento no existe"));
 
-        // 2 ARREGLAR | Verificar si está activo
         if (!cupon.isActivo()) {
             log.error("El cupón {} no está activo", codigo);
             throw new IllegalArgumentException("El cupón ya no se encuentra activo");
         }
 
-        // 3 | Aquí la fecha de vencimiento pasará de String a LocalDate
-        // Probablemten necesite corrección ;_; Formato: "YYYY-MM-DD"
         LocalDate fechaVencimiento = LocalDate.parse(cupon.getFechaVencimiento());
         if (fechaVencimiento.isBefore(LocalDate.now())) {
             log.error("El cupón {} ha vencido", codigo);
@@ -72,7 +68,6 @@ public class CuponDescuentoService {
         }
 
         log.info("Cupón {} válido. Aplicando descuento de {}%", codigo, cupon.getPorcentajeDescuento());
-        // 4. Retorna el porcentaje a descontar
         return cupon.getPorcentajeDescuento();
     }
 }
