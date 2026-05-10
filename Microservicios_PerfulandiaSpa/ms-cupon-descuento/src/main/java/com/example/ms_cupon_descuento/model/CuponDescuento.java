@@ -1,5 +1,7 @@
 package com.example.ms_cupon_descuento.model;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,7 +22,7 @@ public class CuponDescuento {
     private Long id;
 
     private String codigo;
-    private double porcentajeDescuento;
-    private String fechaVencimiento;
+    private Double porcentajeDescuento;
+    private LocalDate fechaVencimiento; 
     private boolean activo;
 }

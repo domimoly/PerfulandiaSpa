@@ -1,10 +1,12 @@
 package com.example.ms_cupon_descuento.service;
 
-import java.time.LocalDate;
+import static net.logstash.logback.argument.StructuredArguments.keyValue;
+
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.ms_cupon_descuento.dto.CuponDescuentoDTO;
 import com.example.ms_cupon_descuento.model.CuponDescuento;
 import com.example.ms_cupon_descuento.repository.CuponDescuentoRepository;
 
@@ -18,9 +20,12 @@ import lombok.extern.slf4j.Slf4j;
 public class CuponDescuentoService {
     private final CuponDescuentoRepository CuponRepo;
 
-    public CuponDescuento crear(CuponDescuento cupon){
-        log.info("Creando cupón: {}", cupon.getCodigo());
-        return CuponRepo.save(cupon);
+    public CuponDescuento crear(CuponDescuentoDTO dto) {
+                log.info("Crear cupón de descuento", keyValue("Código de Cupón", dto.getCodigo()));
+
+
+        CuponDescuento c = new CuponDescuento(null, dto.getCodigo(), dto.getPorcentajeDescuento(), dto.getFechaVencimiento(), true );
+        return CuponRepo.save(c);
     }
 
     public List<CuponDescuento> listar(){
@@ -34,40 +39,17 @@ public class CuponDescuentoService {
             .orElseThrow(() -> new EntityNotFoundException("Cupón no encontrado"));
     }
 
-    public CuponDescuento actualizar(Long id, CuponDescuento cupon){
-        log.info("Actualizando cupón id: {}", id);
+    public CuponDescuento actualizar(Long id, CuponDescuentoDTO dto) {
+        log.info("Actualizar cupón", keyValue("id", id));
         CuponDescuento c = obtener(id);
-        c.setCodigo(cupon.getCodigo());
-        c.setPorcentajeDescuento(cupon.getPorcentajeDescuento());
-        c.setFechaVencimiento(cupon.getFechaVencimiento());
-        c.setActivo(cupon.isActivo());
+        c.setCodigo(dto.getCodigo());
+        c.setPorcentajeDescuento(dto.getPorcentajeDescuento());
+        c.setFechaVencimiento(dto.getFechaVencimiento());
         return CuponRepo.save(c);
     }
 
     public void eliminar(Long id){
         log.warn("Eliminando cupón id: {}", id);
         CuponRepo.deleteById(id);
-    }
-
-    // - + - Validación y Aplicar el cupón - + -
-    public double validarYAplicarCupon(String codigo) {
-        log.info("Validando cupón con código: {}", codigo);
-
-        CuponDescuento cupon = CuponRepo.findByCodigo(codigo)
-                .orElseThrow(() -> new EntityNotFoundException("El código de descuento no existe"));
-
-        if (!cupon.isActivo()) {
-            log.error("El cupón {} no está activo", codigo);
-            throw new IllegalArgumentException("El cupón ya no se encuentra activo");
-        }
-
-        LocalDate fechaVencimiento = LocalDate.parse(cupon.getFechaVencimiento());
-        if (fechaVencimiento.isBefore(LocalDate.now())) {
-            log.error("El cupón {} ha vencido", codigo);
-            throw new IllegalArgumentException("El cupón ha vencido");
-        }
-
-        log.info("Cupón {} válido. Aplicando descuento de {}%", codigo, cupon.getPorcentajeDescuento());
-        return cupon.getPorcentajeDescuento();
     }
 }

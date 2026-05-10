@@ -1,5 +1,7 @@
 package com.example.ms_cupon_descuento.dto;
 
+import java.time.LocalDate;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CuponResponseDTO {
+public class CuponResponse {
     private String codigo;
-    private double porcentajeDescuento;
+    private Double porcentajeDescuento;
+    private LocalDate fechaVencimiento;
 }
