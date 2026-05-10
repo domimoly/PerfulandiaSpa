@@ -19,9 +19,9 @@ public class OrdenDTO {
     
     @NotNull(message = "El total es obligatorio")
     @Min(value = 0, message = "El total debe ser positivo")
-    private double total;
+    private int total;
     
     @NotNull(message = "El descuento aplicado es obligatorio")
     @Min(value = 0, message = "El descuento aplicado debe ser positivo")
-    private double descuentoAplicado;
+    private int descuentoAplicado;
 }

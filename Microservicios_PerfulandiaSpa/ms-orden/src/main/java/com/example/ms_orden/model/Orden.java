@@ -22,6 +22,6 @@ public class Orden {
     private int numeroOrden;
     private String fechaCreacion;
     private String fechaRecibida;
-    private double total;
-    private double descuentoAplicado;
+    private int total;
+    private int descuentoAplicado;
 }
