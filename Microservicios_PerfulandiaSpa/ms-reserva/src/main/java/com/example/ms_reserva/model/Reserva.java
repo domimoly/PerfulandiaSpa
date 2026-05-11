@@ -1,4 +1,5 @@
-package com.example.ms_cliente.model;
+package com.example.ms_reserva.model;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -9,19 +10,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name="cliente")
-public class Cliente {
+@Table(name = "reservas")
+public class Reserva {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    /* Esta tabla en si corresponde al detalle del cliente
-    La cual incorpora su fecha de registro y dirección de envío
-    Se debe evaluar el ID ya que es una tabla "intermedia" correspondiente
-    al usuario.
-    */
-
     
+    private int puntuacion;
+    private String comentario;
+    private String fechaReserva;
+
 }
