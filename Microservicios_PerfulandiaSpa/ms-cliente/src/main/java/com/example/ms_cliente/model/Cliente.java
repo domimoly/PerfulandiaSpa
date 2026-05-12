@@ -17,11 +17,10 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    /* Esta tabla en si corresponde al detalle del cliente
-    La cual incorpora su fecha de registro y dirección de envío
-    Se debe evaluar el ID ya que es una tabla "intermedia" correspondiente
-    al usuario.
-    */
+    
+    private String fechaRegistro;
+    private String direccionEnvio;
+    private Long usuarioId;
 
     
 }
