@@ -10,7 +10,7 @@
         <file>logs/orden-service.json</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/orden-service-%d{yyyy-MM-dd}.json</fileNamePattern>
+            <fileNamePattern>logs/inventario-service-%d{yyyy-MM-dd}.json</fileNamePattern>
             <maxHistory>7</maxHistory>
         </rollingPolicy>
 

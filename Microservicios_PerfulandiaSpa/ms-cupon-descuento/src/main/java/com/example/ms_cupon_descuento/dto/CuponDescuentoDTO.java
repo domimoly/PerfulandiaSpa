@@ -19,4 +19,6 @@ public class CuponDescuentoDTO {
     @NotNull(message = "La fecha de vencimiento es obligatoria")
     @Future(message = "La fecha de vencimiento debe ser una fecha futura")
     private LocalDate fechaVencimiento;
+    /*Al momento de poner la id de producto, arrojara si tiene un
+    cupón activo, mostrando los datos de este, si no, aparecerá como false - no aplica */
 }

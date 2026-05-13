@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.ms_inventario.dto.ApiResponse;
 import com.example.ms_inventario.dto.InventarioDTO;
-import com.example.ms_inventario.model.Inventario;
+import com.example.ms_inventario.dto.InventarioResponse;
 import com.example.ms_inventario.service.InventarioService;
 
 import jakarta.validation.Valid;
@@ -25,59 +26,54 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/inventarios")
 @RequiredArgsConstructor
 public class InventarioController {
-    private final InventarioService inventarioService;
+    private final InventarioService invService;
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<Inventario>> crear(@Valid @RequestBody InventarioDTO dto) {
+    public ResponseEntity<ApiResponse<InventarioResponse>> crear(@Valid @RequestBody InventarioDTO dto, @RequestHeader("Authorization") String token) {
         
-        Inventario inventario = inventarioService.crear(dto);
         return ResponseEntity.status(201).body(
-                ApiResponse.<Inventario>builder()
+                ApiResponse.<InventarioResponse>builder()
                         .success(true)
                         .message("Inventario Creado")
-                        .data(inventario)
+                        .data(invService.crear(dto, token))
                         .build()
         );
     }
 
     @GetMapping
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<ApiResponse<List<Inventario>>> listar() {
-
+    public ResponseEntity<ApiResponse<List<InventarioResponse>>> listar(@RequestHeader("Authorization") String token) {
     return ResponseEntity.ok(
-            ApiResponse.<List<Inventario>>builder()
+            ApiResponse.<List<InventarioResponse>>builder()
                     .success(true)
                     .message("Listado obtenido")
-                    .data(inventarioService.listar())
+                    .data(invService.listar(token))
                     .build()
         );
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<ApiResponse<Inventario>> obtener(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<InventarioResponse>> obtener(@PathVariable Long id, @RequestHeader("Authorization") String token) {
 
         return ResponseEntity.ok(
-                ApiResponse.<Inventario>builder()
+                ApiResponse.<InventarioResponse>builder()
                         .success(true)
                         .message("Orden obtenida")
-                        .data(inventarioService.obtener(id))
+                        .data(invService.obtener(id, token))
                         .build()
         );
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<Inventario>> actualizar(@PathVariable Long id, @Valid @RequestBody InventarioDTO dto) {
-
-        Inventario inventario = inventarioService.actualizar(id, dto);
-
+    public ResponseEntity<ApiResponse<InventarioResponse>> actualizar(@PathVariable Long id,@Valid @RequestBody InventarioDTO dto, @RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(
-                ApiResponse.<Inventario>builder()
+                ApiResponse.<InventarioResponse>builder()
                         .success(true)
                         .message("Inventario actualizado")
-                        .data(inventario)
+                        .data(invService.actualizar(id, dto, token))
                         .build()
         );
     }
@@ -85,9 +81,7 @@ public class InventarioController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<Void>> eliminar(@PathVariable Long id) {
-
-        inventarioService.eliminar(id);
-
+        invService.eliminar(id);
         return ResponseEntity.ok(
                 ApiResponse.<Void>builder()
                         .success(true)
