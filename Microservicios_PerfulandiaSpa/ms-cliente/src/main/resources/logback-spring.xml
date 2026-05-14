@@ -7,7 +7,7 @@
 
     <!-- File JSON -->
     <appender name="JSON_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/orden-service.json</file>
+        <file>logs/cliente-service.json</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/cliente-service-%d{yyyy-MM-dd}.json</fileNamePattern>

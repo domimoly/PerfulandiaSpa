@@ -7,10 +7,10 @@
 
     <!-- File JSON -->
     <appender name="JSON_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/proveedor-service.json</file>
+        <file>logs/reserva-service.json</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/proveedor-service-%d{yyyy-MM-dd}.json</fileNamePattern>
+            <fileNamePattern>logs/reserva-service-%d{yyyy-MM-dd}.json</fileNamePattern>
             <maxHistory>7</maxHistory>
         </rollingPolicy>
 
