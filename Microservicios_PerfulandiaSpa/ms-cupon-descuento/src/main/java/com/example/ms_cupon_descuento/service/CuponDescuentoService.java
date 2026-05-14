@@ -6,7 +6,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.ms_cupon_descuento.client.ProductoClient;
 import com.example.ms_cupon_descuento.dto.CuponDescuentoDTO;
+import com.example.ms_cupon_descuento.dto.CuponResponse;
 import com.example.ms_cupon_descuento.model.CuponDescuento;
 import com.example.ms_cupon_descuento.repository.CuponDescuentoRepository;
 
@@ -19,37 +21,71 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CuponDescuentoService {
     private final CuponDescuentoRepository CuponRepo;
+    private final ProductoClient productoClient;
 
-    public CuponDescuento crear(CuponDescuentoDTO dto) {
-                log.info("Crear cupón de descuento", keyValue("Código de Cupón", dto.getCodigo()));
+    public CuponResponse crear(CuponDescuentoDTO dto, String token) {
+        log.info("Crear cupón de descuento", keyValue("Código de Cupón", dto.getCodigo()));
+        
+        var producto = productoClient.obtenerProducto(dto.getProductoId(), token);
+        if (producto == null) {
+            throw new RuntimeException("Producto no existe");
+        }
 
-
-        CuponDescuento c = new CuponDescuento(null, dto.getCodigo(), dto.getPorcentajeDescuento(), dto.getFechaVencimiento(), true );
-        return CuponRepo.save(c);
+        CuponDescuento cupon = CuponRepo.save(
+            new CuponDescuento(null, dto.getProductoId(), null, dto.getPorcentajeDescuento(), dto.getFechaVencimiento(), dto.getActivo()));
+        return mapToResponse(cupon, token);
     }
 
-    public List<CuponDescuento> listar(){
-        log.info("Listando cupones de descuento");
-        return CuponRepo.findAll();
+    public List<CuponResponse> listar(String token){
+        log.info("Listar cupones de descuento");
+        return CuponRepo.findAll()
+                .stream()
+                .map(t -> mapToResponse(t, token))
+                .toList();
     }
 
-    public CuponDescuento obtener(Long id){
-        log.info("Obteniendo cupón id: {}", id);
-        return CuponRepo.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Cupón no encontrado"));
+    public CuponResponse obtener(Long id, String token){
+        log.info("Obteniendo cupón id: {}", keyValue("id", id));
+
+         CuponDescuento cupon = CuponRepo.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Cupon no encontrado"));
+        return mapToResponse(cupon, token);
     }
 
-    public CuponDescuento actualizar(Long id, CuponDescuentoDTO dto) {
+    public CuponResponse actualizar(Long id, CuponDescuentoDTO dto, String token) {
+        /* pendiente */
         log.info("Actualizar cupón", keyValue("id", id));
-        CuponDescuento c = obtener(id);
+        var producto = productoClient.obtenerProducto(dto.getProductoId(), token);
+
+        if (producto == null) {
+            throw new RuntimeException("Producto no existe");
+        }
+
+        CuponDescuento c = CuponRepo.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("Cupón no encontrado"));
+
         c.setCodigo(dto.getCodigo());
+        c.setProductoId(dto.getProductoId());
         c.setPorcentajeDescuento(dto.getPorcentajeDescuento());
         c.setFechaVencimiento(dto.getFechaVencimiento());
-        return CuponRepo.save(c);
+        return mapToResponse(CuponRepo.save(c), token);
     }
 
     public void eliminar(Long id){
-        log.warn("Eliminando cupón id: {}", id);
+        log.warn("Eliminar cupón", keyValue("id", id));
         CuponRepo.deleteById(id);
     }
+
+    private CuponResponse mapToResponse(CuponDescuento cupon, String token) {
+        var producto = productoClient.obtenerProducto(cupon.getProductoId(), token);
+        return CuponResponse.builder()
+            .id(cupon.getId())
+            .productoId(producto)
+            .nombreProducto(producto != null ? producto.getNombre() : "Producto Desconocido")
+            .codigo(cupon.getCodigo())
+            .porcentajeDescuento(cupon.getPorcentajeDescuento())
+            .fechaVencimiento(cupon.getFechaVencimiento())
+            .activo(cupon.getActivo())
+            .build();
+    }   
 }

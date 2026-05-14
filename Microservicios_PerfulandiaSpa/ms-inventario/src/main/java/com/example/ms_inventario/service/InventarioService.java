@@ -66,7 +66,7 @@ public class InventarioService {
         var producto = productoClient.obtenerProducto(dto.getProductoId(), token);
 
         if (producto == null) {
-            throw new RuntimeException("Cliente no existe");
+            throw new RuntimeException("Producto no existe");
         }
 
         Inventario i = invRepo.findById(id)

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.ms_cupon_descuento.dto.ApiResponse;
 import com.example.ms_cupon_descuento.dto.CuponDescuentoDTO;
-import com.example.ms_cupon_descuento.model.CuponDescuento;
+import com.example.ms_cupon_descuento.dto.CuponResponse;
 import com.example.ms_cupon_descuento.service.CuponDescuentoService;
 
 import jakarta.validation.Valid;
@@ -18,60 +18,55 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/cupones")
 @RequiredArgsConstructor
 public class CuponDescuentoController {
-    // Verificar el GetMapping de /validar/{codigo}
     private final CuponDescuentoService cuponService;
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<CuponDescuento>> crear(@Valid @RequestBody CuponDescuentoDTO dto) {
+    public ResponseEntity<ApiResponse<CuponResponse>> crear(@Valid @RequestBody CuponDescuentoDTO dto, @RequestHeader("Authorization") String token) {
         
-        CuponDescuento cupon = cuponService.crear(dto);
         return ResponseEntity.status(201).body(
-                ApiResponse.<CuponDescuento>builder()
+                ApiResponse.<CuponResponse>builder()
                         .success(true)
                         .message("Cupon Creada")
-                        .data(cupon)
+                        .data(cuponService.crear(dto, token))
                         .build()
         );
     }
 
     @GetMapping
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<ApiResponse<List<CuponDescuento>>> listar() {
+    public ResponseEntity<ApiResponse<List<CuponResponse>>> listar(@RequestHeader("Authorization") String token) {
 
     return ResponseEntity.ok(
-            ApiResponse.<List<CuponDescuento>>builder()
+            ApiResponse.<List<CuponResponse>>builder()
                     .success(true)
                     .message("Listado obtenido")
-                    .data(cuponService.listar())
+                    .data(cuponService.listar(token))
                     .build()
         );
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<ApiResponse<CuponDescuento>> obtener(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<CuponResponse>> obtener(@PathVariable Long id, @RequestHeader("Authorization") String token) {
 
         return ResponseEntity.ok(
-                ApiResponse.<CuponDescuento>builder()
+                ApiResponse.<CuponResponse>builder()
                         .success(true)
                         .message("Cupon obtenido")
-                        .data(cuponService.obtener(id))
+                        .data(cuponService.obtener(id, token))
                         .build()
         );
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<CuponDescuento>> actualizar(@PathVariable Long id, @Valid @RequestBody CuponDescuentoDTO dto) {
-
-        CuponDescuento cupon = cuponService.actualizar(id, dto);
-
+    public ResponseEntity<ApiResponse<CuponResponse>> actualizar(@PathVariable Long id,@Valid @RequestBody CuponDescuentoDTO dto, @RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(
-                ApiResponse.<CuponDescuento>builder()
+                ApiResponse.<CuponResponse>builder()
                         .success(true)
                         .message("Cupon actualizado")
-                        .data(cupon)
+                        .data(cuponService.actualizar(id, dto, token))
                         .build()
         );
     }
