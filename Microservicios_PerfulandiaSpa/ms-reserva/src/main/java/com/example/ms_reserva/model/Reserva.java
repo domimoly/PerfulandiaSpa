@@ -9,19 +9,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table(name = "reservas")
+@Table(name = "reserva")
 public class Reserva {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    private int puntuacion;
-    private String comentario;
-    private String fechaReserva;
 
+
+    private Integer puntuacion;
+    private String comentario;
+    private String fechaResena;
+    private Long usuarioId;
 }
