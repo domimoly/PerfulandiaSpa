@@ -1,9 +1,9 @@
 create table proveedor (
     id integer not null auto_increment,
-    nombre varchar(255) not null,
-    email varchar(255) not null,
-    telefono varchar(50) not null,
-    direccion varchar(255) not null,
+    nombre varchar(255),
+    email varchar(255),
+    telefono varchar(50),
+    direccion varchar(255),
     primary key (id)
 );
 
