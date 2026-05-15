@@ -6,6 +6,8 @@ create table cliente (
     primary key (id)
 );
 
-INSERT INTO cliente (fecha_registro, direccion_envio, usuario_id) VALUES ('2026-01-10', 'Av. Principal 456', 1);
-INSERT INTO cliente (fecha_registro, direccion_envio, usuario_id) VALUES ('2026-02-15', 'Las Condes 303', 2);
+INSERT INTO cliente (fecha_registro, direccion_envio, usuario_id)
+VALUES ('2026-01-10', 'Av. Principal 456', 1);
 
+INSERT INTO cliente (fecha_registro, direccion_envio, usuario_id)
+VALUES ('2026-02-15', 'Las Condes 303', 2);

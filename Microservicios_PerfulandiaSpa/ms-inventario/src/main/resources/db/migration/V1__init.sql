@@ -1,8 +1,8 @@
 create table inventario (
-    id integer not null auto_increment,
-    producto_id integer,
-    sucursal_id integer,
-    cantidad integer,
+    id BIGINT  not null auto_increment,
+    producto_id BIGINT ,
+    sucursal_id BIGINT ,
+    cantidad BIGINT ,
     primary key (id)
 );
 
@@ -24,7 +24,7 @@ INSERT INTO inventarios (producto_id, sucursal_id, cantidad)
 VALUES (2, 2, 20);
 
 INSERT INTO inventarios (producto_id, sucursal_id, cantidad)
-VALUES (6, 2, 10);
+VALUES (4, 2, 10);
 
 -- sucursal vina del mar
 INSERT INTO inventarios (producto_id, sucursal_id, cantidad)

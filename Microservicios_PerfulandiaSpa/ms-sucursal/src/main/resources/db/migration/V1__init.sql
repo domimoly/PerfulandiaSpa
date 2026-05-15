@@ -7,5 +7,13 @@ create table sucursal (
     primary key (id)
 );
 
-INSERT INTO sucursal (nombre, direccion, horarioApertura, politicas) VALUES ('Sucursal Central', 'Calle Principal 123', '09:00-18:00', 'Política de devolución: 30 días');
-INSERT INTO sucursal (nombre, direccion, horarioApertura, politicas) VALUES ('Sucursal Norte', 'Avenida Norte 456', '10:00-19:00', 'Política de devolución: 30 días');
+INSERT INTO sucursal (nombre, direccion, horario_apertura, politicas)
+VALUES ('Barrio Meiggs', 'Barrio Meiggs, Santiago', 'Lun-Sab 9:00-20:00', 'Devolucion con boleta en 30 dias');
+
+-- sucursal 2 → Concepcion
+INSERT INTO sucursal (nombre, direccion, horario_apertura, politicas)
+VALUES ('Concepcion', 'Av. OHiggins 123, Concepcion', 'Lun-Sab 10:00-19:00', 'Devolucion con boleta en 30 dias');
+
+-- sucursal 3 → Vina del Mar
+INSERT INTO sucursal (nombre, direccion, horario_apertura, politicas)
+VALUES ('Vina del Mar', 'Av. Libertad 456, Vina del Mar', 'Lun-Dom 10:00-21:00', 'Devolucion con boleta en 30 dias');

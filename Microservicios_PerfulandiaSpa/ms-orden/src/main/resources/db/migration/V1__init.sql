@@ -8,5 +8,8 @@ create table orden (
     primary key (id)
 );
 
-INSERT INTO orden (numeroOrden, fechaCreacion, fechaRecibida, total, descuentoAplicado) VALUES (1, '2026-03-20', '2026-03-23', 5000, 500);
-INSERT INTO orden (numeroOrden, fechaCreacion, fechaRecibida, total, descuentoAplicado) VALUES (2, '2026-03-24', '2026-03-26', 6000, 500);
+INSERT INTO orden (numeroOrden, fechaCreacion, fechaRecibida, total, descuentoAplicado)
+VALUES (1, '2026-03-20', '2026-03-23', 115000.0, 0.0);
+
+INSERT INTO orden (numeroOrden, fechaCreacion, fechaRecibida, total, descuentoAplicado)
+VALUES (2, '2026-03-24', '2026-03-26', 175000.0, 13000.0);
