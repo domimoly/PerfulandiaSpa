@@ -33,7 +33,7 @@ public class ProveedorService {
     }
 
     public Proveedor obtener(Long id) {
-        log.info("Proveedor proveedor", keyValue("id", id));
+        log.info("Obteniendo proveedor", keyValue("id", id));
 
         return proveedorRepo.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Proveedor no encontrado"));
@@ -52,7 +52,7 @@ public class ProveedorService {
     }
 
     public void eliminar(Long id) {
-        log.warn("Eliminar orden", keyValue("id", id));
+        log.warn("Eliminar proveedor", keyValue("id", id));
         proveedorRepo.deleteById(id);
     }
 }

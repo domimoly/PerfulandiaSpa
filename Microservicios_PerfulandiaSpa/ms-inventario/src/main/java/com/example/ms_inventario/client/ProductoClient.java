@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.example.ms_inventario.dto.ApiResponse;
-import com.example.ms_inventario.dto.ProductoReponse;
+import com.example.ms_inventario.dto.ProductoResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,12 +16,12 @@ public class ProductoClient {
 
     private final String BASE_URL = "http://localhost:8088/ms-producto/";
 
-    public ProductoReponse obtenerProducto(Long id, String token) {
-        ApiResponse<ProductoReponse> response = webClient.get()
+    public ProductoResponse obtenerProducto(Long id, String token) {
+        ApiResponse<ProductoResponse> response = webClient.get()
                 .uri(BASE_URL + id)
                 .header("Authorization", token)
                 .retrieve()
-                .bodyToMono(new org.springframework.core.ParameterizedTypeReference<ApiResponse<ProductoReponse>>() {})
+                .bodyToMono(new org.springframework.core.ParameterizedTypeReference<ApiResponse<ProductoResponse>>() {})
                 .block();
 
         return response != null ? response.getData() : null;
