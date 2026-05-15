@@ -67,6 +67,7 @@ public class CuponDescuentoService {
         c.setProducto(dto.getProducto());
         c.setPorcentajeDescuento(dto.getPorcentajeDescuento());
         c.setFechaVencimiento(dto.getFechaVencimiento());
+        c.setActivo(dto.getActivo());
         return mapToResponse(CuponRepo.save(c), token);
     }
 

@@ -14,7 +14,7 @@ public class ProductoClient {
 
     private final WebClient webClient;
 
-    private final String BASE_URL = "http://localhost:8088/ms-producto/";
+    private final String BASE_URL = "http://localhost:8088/api/productos/";
 
     public ProductoResponse obtenerProducto(Long id, String token) {
         ApiResponse<ProductoResponse> response = webClient.get()

@@ -14,7 +14,7 @@ public class SucursalClient {
 
     private final WebClient webClient;
 
-    private final String BASE_URL = "http://localhost:8091/ms-sucursal/";
+    private final String BASE_URL = "http://localhost:8091/api/sucursales/";
 
     public SucursalResponse obtenerSucursal(Long id, String token) {
         ApiResponse<SucursalResponse> response = webClient.get()
