@@ -1,37 +1,22 @@
-create table inventario (
-    id BIGINT  not null auto_increment,
-    producto_id BIGINT ,
-    sucursal_id BIGINT ,
-    cantidad BIGINT ,
-    primary key (id)
+CREATE TABLE inventario (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    producto BIGINT,
+    sucursal BIGINT,
+    cantidad INTEGER,
+    PRIMARY KEY (id)
 );
 
 -- sucursal santiago (barrio meiggs))
-INSERT INTO inventarios (producto_id, sucursal_id, cantidad)
-VALUES (1, 1, 50);
-
-INSERT INTO inventarios (producto_id, sucursal_id, cantidad)
-VALUES (2, 1, 30);
-
-INSERT INTO inventarios (producto_id, sucursal_id, cantidad)
-VALUES (3, 1, 100);
+INSERT INTO inventario (producto, sucursal, cantidad) VALUES (1, 1, 50);
+INSERT INTO inventario (producto, sucursal, cantidad) VALUES (2, 1, 30);
+INSERT INTO inventario (producto, sucursal, cantidad) VALUES (3, 1, 100);
 
 -- sucursal concepción
-INSERT INTO inventarios (producto_id, sucursal_id, cantidad)
-VALUES (1, 2, 15);
-
-INSERT INTO inventarios (producto_id, sucursal_id, cantidad)
-VALUES (2, 2, 20);
-
-INSERT INTO inventarios (producto_id, sucursal_id, cantidad)
-VALUES (4, 2, 10);
+INSERT INTO inventario (producto, sucursal, cantidad) VALUES (1, 2, 15);
+INSERT INTO inventario (producto, sucursal, cantidad) VALUES (2, 2, 20);
+INSERT INTO inventario (producto, sucursal, cantidad) VALUES (4, 2, 10);
 
 -- sucursal vina del mar
-INSERT INTO inventarios (producto_id, sucursal_id, cantidad)
-VALUES (3, 3, 80);
-
-INSERT INTO inventarios (producto_id, sucursal_id, cantidad)
-VALUES (4, 3, 25);
-
-INSERT INTO inventarios (producto_id, sucursal_id, cantidad)
-VALUES (5, 3, 35);
+INSERT INTO inventario (producto, sucursal, cantidad) VALUES (3, 3, 80);
+INSERT INTO inventario (producto, sucursal, cantidad) VALUES (4, 3, 25);
+INSERT INTO inventario (producto, sucursal, cantidad) VALUES (5, 3, 35);

@@ -1,15 +1,15 @@
-create table orden (
-    id integer not null auto_increment,
-    numeroOrden integer,
-    fechaCreacion varchar(255),
-    fechaRecibida varchar(255),
-    total integer,
-    descuentoAplicado integer,
-    primary key (id)
+CREATE TABLE orden (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    numero_orden INTEGER,
+    fecha_creacion VARCHAR(255),
+    fecha_recibida VARCHAR(255),
+    total INTEGER,
+    descuento_aplicado INTEGER,
+    PRIMARY KEY (id)
 );
 
-INSERT INTO orden (numeroOrden, fechaCreacion, fechaRecibida, total, descuentoAplicado)
-VALUES (1, '2026-03-20', '2026-03-23', 115000.0, 0.0);
+INSERT INTO orden (numero_orden, fecha_creacion, fecha_recibida, total, descuento_aplicado)
+VALUES (1, '2026-03-20', '2026-03-23', 115000, 0);
 
-INSERT INTO orden (numeroOrden, fechaCreacion, fechaRecibida, total, descuentoAplicado)
-VALUES (2, '2026-03-24', '2026-03-26', 175000.0, 13000.0);
+INSERT INTO orden (numero_orden, fecha_creacion, fecha_recibida, total, descuento_aplicado)
+VALUES (2, '2026-03-24', '2026-03-26', 175000, 13000);

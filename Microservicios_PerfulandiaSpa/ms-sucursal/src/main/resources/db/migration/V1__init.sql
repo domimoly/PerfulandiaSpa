@@ -1,19 +1,20 @@
-create table sucursal (
-    id integer not null auto_increment,
-    nombre varchar(255),
-    direccion varchar(255),
-    horarioApertura varchar(255),
-    politicas varchar(255),
-    primary key (id)
+CREATE TABLE sucursal (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(255),
+    direccion VARCHAR(255),
+    horario_apertura VARCHAR(255),
+    politicas VARCHAR(255),
+    PRIMARY KEY (id)
 );
 
+-- Sucursal: Santiago
 INSERT INTO sucursal (nombre, direccion, horario_apertura, politicas)
 VALUES ('Barrio Meiggs', 'Barrio Meiggs, Santiago', 'Lun-Sab 9:00-20:00', 'Devolucion con boleta en 30 dias');
 
--- sucursal 2 → Concepcion
+-- Sucursal: Concepción
 INSERT INTO sucursal (nombre, direccion, horario_apertura, politicas)
 VALUES ('Concepcion', 'Av. OHiggins 123, Concepcion', 'Lun-Sab 10:00-19:00', 'Devolucion con boleta en 30 dias');
 
--- sucursal 3 → Vina del Mar
+-- Sucursal: Viña del mar
 INSERT INTO sucursal (nombre, direccion, horario_apertura, politicas)
 VALUES ('Vina del Mar', 'Av. Libertad 456, Vina del Mar', 'Lun-Dom 10:00-21:00', 'Devolucion con boleta en 30 dias');
