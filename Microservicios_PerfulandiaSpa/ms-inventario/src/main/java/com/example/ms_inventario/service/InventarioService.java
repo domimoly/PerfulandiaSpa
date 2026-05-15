@@ -26,20 +26,21 @@ public class InventarioService {
     private final SucursalClient sucursalClient;
 
     public InventarioResponse crear(InventarioDTO dto, String token) {
-        log.info("Crear registro de inventario", keyValue("Producto ID", dto.getProductoId()), keyValue("Sucursal ID", dto.getSucursalId()));
+        log.info("Crear registro de inventario", keyValue("Producto ID", dto.getProducto()), keyValue("Sucursal ID", dto.getSucursal()));
 
-        var producto = productoClient.obtenerProducto(dto.getProductoId(), token);
-        var sucursal = sucursalClient.obtenerSucursal(dto.getSucursalId(), token);
+        var productoR = productoClient.obtenerProducto(dto.getProducto(), token);
+        var sucursalR = sucursalClient.obtenerSucursal(dto.getSucursal(), token);
 
-        if (producto == null) {
+        if (productoR == null) {
             throw new RuntimeException("Producto no existe");
         }
-        if (sucursal == null) {
+
+        if (sucursalR == null) {
             throw new RuntimeException("Sucursal no existe");
         }
 
         Inventario inventario = invRepo.save(
-            new Inventario(null, dto.getProductoId(), dto.getSucursalId(), dto.getCantidad()));
+            new Inventario(null, dto.getProducto(), dto.getSucursal(), dto.getCantidad()));
         
         return mapToResponse(inventario, token);
     }
@@ -63,17 +64,22 @@ public class InventarioService {
 
     public InventarioResponse actualizar(Long id, InventarioDTO dto, String token) {
         log.info("Actualizar inventario", keyValue("id", id));
-        var producto = productoClient.obtenerProducto(dto.getProductoId(), token);
+        var productoR = productoClient.obtenerProducto(dto.getProducto(), token);
+        var sucursalR = sucursalClient.obtenerSucursal(dto.getSucursal(), token);
 
-        if (producto == null) {
+        if (productoR == null) {
             throw new RuntimeException("Producto no existe");
+        }
+
+        if (sucursalR == null) {
+            throw new RuntimeException("Sucursal no existe");
         }
 
         Inventario i = invRepo.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Inventario no encontrado"));
 
-        i.setProductoId(dto.getProductoId());
-        i.setSucursalId(dto.getSucursalId());
+        i.setProducto(dto.getProducto());
+        i.setSucursal(dto.getSucursal());
         i.setCantidad(dto.getCantidad());
         return mapToResponse(invRepo.save(i), token);
     }
@@ -84,12 +90,12 @@ public class InventarioService {
     }
 
     private InventarioResponse mapToResponse(Inventario inventario, String token) {
-        var producto = productoClient.obtenerProducto(inventario.getProductoId(), token);
-        var sucursal = sucursalClient.obtenerSucursal(inventario.getSucursalId(), token);
+        var productoR = productoClient.obtenerProducto(inventario.getProducto(), token);
+        var sucursalR = sucursalClient.obtenerSucursal(inventario.getSucursal(), token);
         return InventarioResponse.builder()
                 .id(inventario.getId())
-                .productoId(producto)
-                .sucursalId(sucursal)
+                .producto(productoR)
+                .sucursal(sucursalR)
                 .cantidad(inventario.getCantidad())
                 .build();
     }

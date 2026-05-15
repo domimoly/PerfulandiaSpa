@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class InventarioResponse {
     private Long id;
-    private ProductoReponse productoId;
-    private SucursalResponse sucursalId;
+    private ProductoReponse producto;
+    private SucursalResponse sucursal; 
     private Integer cantidad; 
 }

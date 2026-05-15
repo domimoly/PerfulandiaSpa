@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CuponDescuentoDTO {
     @NotNull(message = "El ID del producto es obligatorio")
-    private Long productoId;
+    private Long producto;
 
     @NotBlank(message = "El código del cupón es obligatorio")
     private String codigo;

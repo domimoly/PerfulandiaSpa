@@ -34,7 +34,7 @@ public class CuponDescuentoController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<ApiResponse<List<CuponResponse>>> listar(@RequestHeader("Authorization") String token) {
 
     return ResponseEntity.ok(
@@ -47,7 +47,7 @@ public class CuponDescuentoController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<ApiResponse<CuponResponse>> obtener(@PathVariable Long id, @RequestHeader("Authorization") String token) {
 
         return ResponseEntity.ok(

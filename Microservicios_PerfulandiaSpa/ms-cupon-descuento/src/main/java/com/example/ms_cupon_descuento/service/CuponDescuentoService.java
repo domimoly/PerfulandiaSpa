@@ -26,13 +26,13 @@ public class CuponDescuentoService {
     public CuponResponse crear(CuponDescuentoDTO dto, String token) {
         log.info("Crear cupón de descuento", keyValue("Código de Cupón", dto.getCodigo()));
         
-        var producto = productoClient.obtenerProducto(dto.getProductoId(), token);
-        if (producto == null) {
+        var productoR = productoClient.obtenerProducto(dto.getProducto(), token);
+        if (productoR == null) {
             throw new RuntimeException("Producto no existe");
         }
 
         CuponDescuento cupon = CuponRepo.save(
-            new CuponDescuento(null, dto.getProductoId(), null, dto.getPorcentajeDescuento(), dto.getFechaVencimiento(), dto.getActivo()));
+            new CuponDescuento(null, dto.getProducto(), null, dto.getPorcentajeDescuento(), dto.getFechaVencimiento(), dto.getActivo()));
         return mapToResponse(cupon, token);
     }
 
@@ -53,9 +53,8 @@ public class CuponDescuentoService {
     }
 
     public CuponResponse actualizar(Long id, CuponDescuentoDTO dto, String token) {
-        /* pendiente */
         log.info("Actualizar cupón", keyValue("id", id));
-        var producto = productoClient.obtenerProducto(dto.getProductoId(), token);
+        var producto = productoClient.obtenerProducto(dto.getProducto(), token);
 
         if (producto == null) {
             throw new RuntimeException("Producto no existe");
@@ -65,7 +64,7 @@ public class CuponDescuentoService {
                 .orElseThrow(()-> new EntityNotFoundException("Cupón no encontrado"));
 
         c.setCodigo(dto.getCodigo());
-        c.setProductoId(dto.getProductoId());
+        c.setProducto(dto.getProducto());
         c.setPorcentajeDescuento(dto.getPorcentajeDescuento());
         c.setFechaVencimiento(dto.getFechaVencimiento());
         return mapToResponse(CuponRepo.save(c), token);
@@ -77,11 +76,11 @@ public class CuponDescuentoService {
     }
 
     private CuponResponse mapToResponse(CuponDescuento cupon, String token) {
-        var producto = productoClient.obtenerProducto(cupon.getProductoId(), token);
+        var productoR = productoClient.obtenerProducto(cupon.getProducto(), token);
         return CuponResponse.builder()
             .id(cupon.getId())
-            .productoId(producto)
-            .nombreProducto(producto != null ? producto.getNombre() : "Producto Desconocido")
+            .producto(productoR)
+            .nombreProducto(productoR != null ? productoR.getNombre() : "Producto Desconocido")
             .codigo(cupon.getCodigo())
             .porcentajeDescuento(cupon.getPorcentajeDescuento())
             .fechaVencimiento(cupon.getFechaVencimiento())

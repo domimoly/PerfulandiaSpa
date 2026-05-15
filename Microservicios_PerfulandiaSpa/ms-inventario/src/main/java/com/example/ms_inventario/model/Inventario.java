@@ -18,10 +18,7 @@ public class Inventario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    // Nota | Las id son referencias, así no se usan las entidades
-    // completas y se mantiene una independencia en microservicios :)
-    private Long productoId;
-    private Long sucursalId;
+    private Long producto;
+    private Long sucursal;
     private Integer cantidad; 
 }

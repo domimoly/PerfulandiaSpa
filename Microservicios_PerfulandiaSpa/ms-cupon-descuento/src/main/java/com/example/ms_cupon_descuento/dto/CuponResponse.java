@@ -13,12 +13,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CuponResponse {
     private Long id;
-    private ProductoReponse productoId;
+    private ProductoReponse producto;
     private String nombreProducto; 
     private String codigo;
     private Double porcentajeDescuento;
     private LocalDate fechaVencimiento;
     private Boolean activo;
-    /*Al momento de poner la id de producto, arrojara si tiene un
-    cupón activo, mostrando los datos de este, si no, aparecerá como false - no aplica */
 }

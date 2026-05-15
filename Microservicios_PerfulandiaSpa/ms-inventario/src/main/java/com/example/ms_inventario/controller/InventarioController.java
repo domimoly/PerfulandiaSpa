@@ -60,7 +60,7 @@ public class InventarioController {
         return ResponseEntity.ok(
                 ApiResponse.<InventarioResponse>builder()
                         .success(true)
-                        .message("Orden obtenida")
+                        .message("Inventario obtenido")
                         .data(invService.obtener(id, token))
                         .build()
         );

@@ -21,7 +21,7 @@ public class CuponDescuento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long productoId;
+    private Long producto;
     private String codigo;
     private Double porcentajeDescuento;
     private LocalDate fechaVencimiento;
