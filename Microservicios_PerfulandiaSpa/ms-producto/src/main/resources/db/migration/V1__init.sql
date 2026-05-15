@@ -1,8 +1,8 @@
 create table producto (
     id integer not null auto_increment,
-    nombre varchar(255) not null,
-    descripcion varchar(255) not null,
-    precio double not null,
+    nombre varchar(255),
+    descripcion varchar(255),
+    precio double,
     primary key (id)
 );
 
