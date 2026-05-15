@@ -3,7 +3,7 @@ create table producto (
     nombre varchar(255),
     descripcion varchar(255),
     precio double,
-    cantidad integer
+    cantidad integer,
     primary key (id)
 );
 
