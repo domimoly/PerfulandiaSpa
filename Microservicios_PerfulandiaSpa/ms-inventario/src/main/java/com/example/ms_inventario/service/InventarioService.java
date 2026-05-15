@@ -68,7 +68,7 @@ public class InventarioService {
         var sucursalR = sucursalClient.obtenerSucursal(dto.getSucursal(), token);
 
         if (productoR == null) {
-            throw new RuntimeException("Producto no existe");
+            throw new RuntimeException("Transacción bloqueada: Producto no existe en los registros");
         }
 
         if (sucursalR == null) {

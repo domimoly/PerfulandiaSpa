@@ -8,4 +8,5 @@ public class ProductoResponse {
     private String nombre;
     private String descripcion;
     private double precio;
+    private Integer cantidad;
 }

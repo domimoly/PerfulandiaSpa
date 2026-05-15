@@ -19,4 +19,8 @@ public class ProductoDTO {
     @NotNull(message = "El precio es obligatorio")
     @Min(value = 0, message = "El precio no puede ser negativo")
     private Double precio;
+
+    @NotNull(message = "La cantidad es necesaria")
+    @Min(value = 0, message = "La cantidad no puede ser negativa.")
+    private Integer cantidad;
 }

@@ -20,7 +20,7 @@ public class ProductoService {
     
     public Producto crear(ProductoDTO dto) {
         log.info("Crear producto", keyValue("Nombre de Producto", dto.getNombre()));
-        Producto p = new Producto(null, dto.getNombre(), dto.getDescripcion(), dto.getPrecio());
+        Producto p = new Producto(null, dto.getNombre(), dto.getDescripcion(), dto.getPrecio(), dto.getCantidad());
         return productoRepo.save(p); 
     } 
 
@@ -41,6 +41,7 @@ public class ProductoService {
         p.setNombre(dto.getNombre());
         p.setDescripcion(dto.getDescripcion());
         p.setPrecio(dto.getPrecio());
+        p.setCantidad(dto.getCantidad());
         return productoRepo.save(p);
     }
 
