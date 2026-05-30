@@ -11,4 +11,5 @@ public class RegisterRequest {
 
     @NotBlank(message = "Password es obligatorio")
     private String password;
+    private String role;
 }
