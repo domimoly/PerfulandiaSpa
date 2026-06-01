@@ -27,7 +27,7 @@ public class CuponDescuentoController {
         return ResponseEntity.status(201).body(
                 ApiResponse.<CuponResponse>builder()
                         .success(true)
-                        .message("Cupon Creada")
+                        .message("Cupón Creado")
                         .data(cuponService.crear(dto, token))
                         .build()
         );
@@ -53,7 +53,7 @@ public class CuponDescuentoController {
         return ResponseEntity.ok(
                 ApiResponse.<CuponResponse>builder()
                         .success(true)
-                        .message("Cupon obtenido")
+                        .message("Cupón obtenido")
                         .data(cuponService.obtener(id, token))
                         .build()
         );
@@ -65,7 +65,7 @@ public class CuponDescuentoController {
         return ResponseEntity.ok(
                 ApiResponse.<CuponResponse>builder()
                         .success(true)
-                        .message("Cupon actualizado")
+                        .message("Cupón actualizado")
                         .data(cuponService.actualizar(id, dto, token))
                         .build()
         );
@@ -80,7 +80,7 @@ public class CuponDescuentoController {
         return ResponseEntity.ok(
                 ApiResponse.<Void>builder()
                         .success(true)
-                        .message("Cupon eliminado")
+                        .message("Cupón eliminado")
                         .build()
         );
     }
