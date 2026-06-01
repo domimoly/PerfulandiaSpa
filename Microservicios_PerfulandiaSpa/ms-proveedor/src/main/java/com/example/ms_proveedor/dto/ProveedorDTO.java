@@ -17,4 +17,7 @@ public class ProveedorDTO {
 
     @NotBlank(message = "La dirección es obligatoria")
     private String direccion;
+
+    @NotNull(message = "El ID de la sucursal es obligatorio")
+    private Long sucursal;
 }

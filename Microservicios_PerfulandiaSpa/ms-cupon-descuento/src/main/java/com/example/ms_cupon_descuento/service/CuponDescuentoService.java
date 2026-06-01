@@ -32,7 +32,7 @@ public class CuponDescuentoService {
         }
 
         CuponDescuento cupon = CuponRepo.save(
-            new CuponDescuento(null, dto.getProducto(), null, dto.getPorcentajeDescuento(), dto.getFechaVencimiento(), dto.getActivo()));
+            new CuponDescuento(null, dto.getProducto(), dto.getCodigo(), dto.getPorcentajeDescuento(), dto.getFechaVencimiento(), dto.getActivo()));
         return mapToResponse(cupon, token);
     }
 
@@ -80,7 +80,6 @@ public class CuponDescuentoService {
         var productoR = productoClient.obtenerProducto(cupon.getProducto(), token);
         return CuponResponse.builder()
             .id(cupon.getId())
-            .producto(productoR)
             .nombreProducto(productoR != null ? productoR.getNombre() : "Producto Desconocido")
             .codigo(cupon.getCodigo())
             .porcentajeDescuento(cupon.getPorcentajeDescuento())

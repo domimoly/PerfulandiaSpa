@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,13 +32,13 @@ public class ProveedorController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<Proveedor>> crear(@Valid @RequestBody ProveedorDTO dto) {
+    public ResponseEntity<ApiResponse<Proveedor>> crear(@Valid @RequestBody ProveedorDTO dto, @RequestHeader("Authorization") String token) {
         
-        Proveedor proveedor = proveedorService.crear(dto);
+        Proveedor proveedor = proveedorService.crear(dto, token);
         return ResponseEntity.status(201).body(
                 ApiResponse.<Proveedor>builder()
                         .success(true)
-                        .message("Orden Creada")
+                        .message("Proveedor Creado")
                         .data(proveedor)
                         .build()
         );
@@ -50,7 +51,7 @@ public class ProveedorController {
     return ResponseEntity.ok(
             ApiResponse.<List<Proveedor>>builder()
                     .success(true)
-                    .message("Listado obtenido")
+                    .message("Listado Obtenido")
                     .data(proveedorService.listar())
                     .build()
         );
@@ -63,7 +64,7 @@ public class ProveedorController {
         return ResponseEntity.ok(
                 ApiResponse.<Proveedor>builder()
                         .success(true)
-                        .message("Orden obtenida")
+                        .message("Proveedor Obtenido")
                         .data(proveedorService.obtener(id))
                         .build()
         );
@@ -71,14 +72,14 @@ public class ProveedorController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<Proveedor>> actualizar(@PathVariable Long id, @Valid @RequestBody ProveedorDTO dto) {
+    public ResponseEntity<ApiResponse<Proveedor>> actualizar(@PathVariable Long id, @Valid @RequestBody ProveedorDTO dto, @RequestHeader("Authorization") String token) {
 
-        Proveedor proveedor = proveedorService.actualizar(id, dto);
+        Proveedor proveedor = proveedorService.actualizar(id, dto, token);
 
         return ResponseEntity.ok(
                 ApiResponse.<Proveedor>builder()
                         .success(true)
-                        .message("Orden actualizada")
+                        .message("Proveedor Actualizado")
                         .data(proveedor)
                         .build()
         );
@@ -91,7 +92,7 @@ public class ProveedorController {
         return ResponseEntity.ok(
                 ApiResponse.<Void>builder()
                         .success(true)
-                        .message("Proveedor eliminado")
+                        .message("Proveedor Eliminado")
                         .build()
         );
     }

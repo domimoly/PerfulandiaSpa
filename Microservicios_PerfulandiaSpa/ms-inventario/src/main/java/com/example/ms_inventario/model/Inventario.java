@@ -20,5 +20,6 @@ public class Inventario {
     private Long id;
     private Long producto;
     private Long sucursal;
-    private Integer cantidad; 
+    private Integer cantidad;
+    private Integer stockMinimo;
 }

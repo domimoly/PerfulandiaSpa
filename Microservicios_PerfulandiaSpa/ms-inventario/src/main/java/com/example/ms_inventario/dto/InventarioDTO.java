@@ -19,4 +19,8 @@ public class InventarioDTO {
     @NotNull(message = "La cantidad en stock es obligatoria")
     @Min(value = 0, message = "La cantidad en inventario no puede ser menor a 0")
     private Integer cantidad;
+
+    @NotNull(message = "El stock mínimo es obligatorio")
+    @Min(value = 0, message = "El stock mínimo no puede ser negativo")
+    private Integer stockMinimo;
 }

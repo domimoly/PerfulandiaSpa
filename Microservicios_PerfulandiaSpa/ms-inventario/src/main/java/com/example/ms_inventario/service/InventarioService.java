@@ -40,7 +40,7 @@ public class InventarioService {
         }
 
         Inventario inventario = invRepo.save(
-            new Inventario(null, dto.getProducto(), dto.getSucursal(), dto.getCantidad()));
+            new Inventario(null, dto.getProducto(), dto.getSucursal(), dto.getCantidad(), dto.getStockMinimo()));
         
         return mapToResponse(inventario, token);
     }
@@ -81,6 +81,7 @@ public class InventarioService {
         i.setProducto(dto.getProducto());
         i.setSucursal(dto.getSucursal());
         i.setCantidad(dto.getCantidad());
+        i.setStockMinimo(dto.getStockMinimo());
         return mapToResponse(invRepo.save(i), token);
     }
 

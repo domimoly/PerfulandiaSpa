@@ -23,5 +23,6 @@ public class Proveedor {
     private String email;
     private String telefono;
     private String direccion;
+    private Long sucursal;
 }
 

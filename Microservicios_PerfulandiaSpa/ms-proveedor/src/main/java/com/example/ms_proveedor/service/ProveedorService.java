@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.ms_proveedor.client.SucursalClient;
 import com.example.ms_proveedor.dto.ProveedorDTO;
 import com.example.ms_proveedor.model.Proveedor;
 import com.example.ms_proveedor.repository.ProveedorRepository;
@@ -19,11 +20,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ProveedorService {
     private final ProveedorRepository proveedorRepo;
+    private final SucursalClient sucursalClient;
 
-    public Proveedor crear(ProveedorDTO dto) {
+    public Proveedor crear(ProveedorDTO dto, String token) {
         log.info("Crear proveedor", keyValue("Nombre de Proveedor", dto.getNombre()));
 
-        Proveedor p = new Proveedor(null, dto.getNombre(), dto.getEmail(), dto.getTelefono(), dto.getDireccion());
+        var sucursalR = sucursalClient.obtenerSucursal(dto.getSucursal(), token);
+        if (sucursalR == null) {
+            throw new RuntimeException("Sucursal no existe");
+        }
+
+        Proveedor p = new Proveedor(null, dto.getNombre(), dto.getEmail(), dto.getTelefono(), dto.getDireccion(), dto.getSucursal());
         return proveedorRepo.save(p);
     }
 
@@ -39,14 +46,20 @@ public class ProveedorService {
                 .orElseThrow(() -> new EntityNotFoundException("Proveedor no encontrado"));
     }
 
-    public Proveedor actualizar(Long id, ProveedorDTO dto){
+    public Proveedor actualizar(Long id, ProveedorDTO dto, String token){
         log.info("Actualizar proveedor", keyValue("id", id));
+
+        var sucursalR = sucursalClient.obtenerSucursal(dto.getSucursal(), token);
+        if (sucursalR == null) {
+            throw new RuntimeException("Sucursal no existe");
+        }
 
         Proveedor p = obtener(id);
         p.setNombre(dto.getNombre());
         p.setEmail(dto.getEmail());
         p.setTelefono(dto.getTelefono());
         p.setDireccion(dto.getDireccion());
+        p.setSucursal(dto.getSucursal());
         
         return proveedorRepo.save(p);
     }
