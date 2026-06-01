@@ -14,4 +14,5 @@ public class InventarioResponse {
     private ProductoResponse producto;
     private SucursalResponse sucursal; 
     private Integer cantidad; 
+    private Integer stockMinimo;
 }

@@ -32,11 +32,11 @@ public class ProductoService {
     public Producto obtener(Long id) {
         log.info("Obtener producto", keyValue("id", id));
         return productoRepo.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Orden no encontrada"));
+                .orElseThrow(() -> new EntityNotFoundException("Producto no encontrado"));
     }
 
     public Producto actualizar(Long id, ProductoDTO dto){
-        log.info("Actualizar orden", keyValue("id", id));
+        log.info("Actualizar producto", keyValue("id", id));
         Producto p = obtener(id);
         p.setNombre(dto.getNombre());
         p.setDescripcion(dto.getDescripcion());

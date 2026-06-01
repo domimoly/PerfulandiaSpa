@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.ms_proveedor.client.SucursalClient;
 import com.example.ms_proveedor.dto.ProveedorDTO;
+import com.example.ms_proveedor.dto.ProveedorResponse;
 import com.example.ms_proveedor.model.Proveedor;
 import com.example.ms_proveedor.repository.ProveedorRepository;
 
@@ -22,7 +23,7 @@ public class ProveedorService {
     private final ProveedorRepository proveedorRepo;
     private final SucursalClient sucursalClient;
 
-    public Proveedor crear(ProveedorDTO dto, String token) {
+    public ProveedorResponse crear(ProveedorDTO dto, String token) {
         log.info("Crear proveedor", keyValue("Nombre de Proveedor", dto.getNombre()));
 
         var sucursalR = sucursalClient.obtenerSucursal(dto.getSucursal(), token);
@@ -30,23 +31,27 @@ public class ProveedorService {
             throw new RuntimeException("Sucursal no existe");
         }
 
-        Proveedor p = new Proveedor(null, dto.getNombre(), dto.getEmail(), dto.getTelefono(), dto.getDireccion(), dto.getSucursal());
-        return proveedorRepo.save(p);
+        Proveedor p = proveedorRepo.save(new Proveedor(null, dto.getNombre(), dto.getEmail(), dto.getTelefono(), dto.getDireccion(), dto.getSucursal()));
+        return mapToResponse(p, token);
     }
 
-    public List<Proveedor> listar(){
+    public List<ProveedorResponse> listar(String token) {
         log.info("Listando todos los proveedores");
-        return proveedorRepo.findAll();
-    }
+        return proveedorRepo.findAll()
+            .stream()
+            .map(p -> mapToResponse(p, token))
+            .toList();
+}
 
-    public Proveedor obtener(Long id) {
+    public ProveedorResponse obtener(Long id, String token) {
         log.info("Obteniendo proveedor", keyValue("id", id));
 
-        return proveedorRepo.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Proveedor no encontrado"));
+        Proveedor p = proveedorRepo.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Proveedor no encontrado"));
+        return mapToResponse(p, token);
     }
 
-    public Proveedor actualizar(Long id, ProveedorDTO dto, String token){
+    public ProveedorResponse actualizar(Long id, ProveedorDTO dto, String token){
         log.info("Actualizar proveedor", keyValue("id", id));
 
         var sucursalR = sucursalClient.obtenerSucursal(dto.getSucursal(), token);
@@ -54,18 +59,31 @@ public class ProveedorService {
             throw new RuntimeException("Sucursal no existe");
         }
 
-        Proveedor p = obtener(id);
+        Proveedor p = proveedorRepo.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Proveedor no encontrado"));
         p.setNombre(dto.getNombre());
         p.setEmail(dto.getEmail());
         p.setTelefono(dto.getTelefono());
         p.setDireccion(dto.getDireccion());
         p.setSucursal(dto.getSucursal());
         
-        return proveedorRepo.save(p);
+        return mapToResponse(proveedorRepo.save(p), token);
     }
 
     public void eliminar(Long id) {
         log.warn("Eliminar proveedor", keyValue("id", id));
         proveedorRepo.deleteById(id);
+    }
+
+    private ProveedorResponse mapToResponse(Proveedor p, String token) {
+        var sucursalR = sucursalClient.obtenerSucursal(p.getSucursal(), token);
+        return ProveedorResponse.builder()
+            .id(p.getId())
+            .nombre(p.getNombre())
+            .email(p.getEmail())
+            .telefono(p.getTelefono())
+            .direccion(p.getDireccion())
+            .sucursal(sucursalR)
+            .build();
     }
 }

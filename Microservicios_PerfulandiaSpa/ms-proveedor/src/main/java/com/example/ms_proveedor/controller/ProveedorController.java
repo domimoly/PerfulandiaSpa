@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.ms_proveedor.dto.ApiResponse;
 import com.example.ms_proveedor.dto.ProveedorDTO;
-import com.example.ms_proveedor.model.Proveedor;
+import com.example.ms_proveedor.dto.ProveedorResponse;
 
 import jakarta.validation.Valid;
 
@@ -32,11 +32,11 @@ public class ProveedorController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<Proveedor>> crear(@Valid @RequestBody ProveedorDTO dto, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<ApiResponse<ProveedorResponse>> crear(@Valid @RequestBody ProveedorDTO dto, @RequestHeader("Authorization") String token) {
         
-        Proveedor proveedor = proveedorService.crear(dto, token);
+        ProveedorResponse proveedor = proveedorService.crear(dto, token);
         return ResponseEntity.status(201).body(
-                ApiResponse.<Proveedor>builder()
+                ApiResponse.<ProveedorResponse>builder()
                         .success(true)
                         .message("Proveedor Creado")
                         .data(proveedor)
@@ -46,41 +46,39 @@ public class ProveedorController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<ApiResponse<List<Proveedor>>> listar() {
+    public ResponseEntity<ApiResponse<List<ProveedorResponse>>> listar(@RequestHeader("Authorization") String token) {
 
     return ResponseEntity.ok(
-            ApiResponse.<List<Proveedor>>builder()
+            ApiResponse.<List<ProveedorResponse>>builder()
                     .success(true)
                     .message("Listado Obtenido")
-                    .data(proveedorService.listar())
+                    .data(proveedorService.listar(token))
                     .build()
         );
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<ApiResponse<Proveedor>> obtener(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<ProveedorResponse>> obtener(@PathVariable Long id, @RequestHeader("Authorization") String token) {
 
         return ResponseEntity.ok(
-                ApiResponse.<Proveedor>builder()
+                ApiResponse.<ProveedorResponse>builder()
                         .success(true)
                         .message("Proveedor Obtenido")
-                        .data(proveedorService.obtener(id))
+                        .data(proveedorService.obtener(id, token))
                         .build()
         );
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<Proveedor>> actualizar(@PathVariable Long id, @Valid @RequestBody ProveedorDTO dto, @RequestHeader("Authorization") String token) {
-
-        Proveedor proveedor = proveedorService.actualizar(id, dto, token);
+    public ResponseEntity<ApiResponse<ProveedorResponse>> actualizar(@PathVariable Long id, @Valid @RequestBody ProveedorDTO dto, @RequestHeader("Authorization") String token) {
 
         return ResponseEntity.ok(
-                ApiResponse.<Proveedor>builder()
+                ApiResponse.<ProveedorResponse>builder()
                         .success(true)
                         .message("Proveedor Actualizado")
-                        .data(proveedor)
+                        .data(proveedorService.actualizar(id, dto, token))
                         .build()
         );
     }

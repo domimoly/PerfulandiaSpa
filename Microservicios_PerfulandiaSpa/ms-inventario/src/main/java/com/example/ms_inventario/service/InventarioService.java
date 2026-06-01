@@ -98,6 +98,7 @@ public class InventarioService {
                 .producto(productoR)
                 .sucursal(sucursalR)
                 .cantidad(inventario.getCantidad())
+                .stockMinimo(inventario.getStockMinimo())
                 .build();
     }
 }

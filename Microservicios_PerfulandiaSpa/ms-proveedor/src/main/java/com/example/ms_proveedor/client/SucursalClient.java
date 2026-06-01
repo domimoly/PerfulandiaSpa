@@ -3,6 +3,7 @@ package com.example.ms_proveedor.client;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.example.ms_proveedor.dto.ApiResponse;
 import com.example.ms_proveedor.dto.SucursalResponse;
 
 import lombok.RequiredArgsConstructor;
@@ -10,19 +11,19 @@ import lombok.RequiredArgsConstructor;
 @Component
 @RequiredArgsConstructor
 public class SucursalClient {
-    private final WebClient.Builder webClientBuilder;
+
+    private final WebClient webClient;
+
+    private final String BASE_URL = "http://localhost:8091/api/sucursales/";
 
     public SucursalResponse obtenerSucursal(Long id, String token) {
-        try {
-            return webClientBuilder.build()
-                .get()
-                .uri("http://localhost:8091/api/sucursales/" + id)
+        ApiResponse<SucursalResponse> response = webClient.get()
+                .uri(BASE_URL + id)
                 .header("Authorization", token)
                 .retrieve()
-                .bodyToMono(SucursalResponse.class)
+                .bodyToMono(new org.springframework.core.ParameterizedTypeReference<ApiResponse<SucursalResponse>>() {})
                 .block();
-        } catch (Exception e) {
-            return null;
-        }
+
+        return response != null ? response.getData() : null;
     }
 }
