@@ -22,7 +22,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/ordenes")
+@RequestMapping("/api/v2/ordenes")
 @RequiredArgsConstructor
 public class OrdenController {
     private final OrdenService ordenService;
