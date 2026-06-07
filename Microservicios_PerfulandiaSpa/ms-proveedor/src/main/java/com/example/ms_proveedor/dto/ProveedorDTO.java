@@ -20,4 +20,7 @@ public class ProveedorDTO {
 
     @NotNull(message = "El ID de la sucursal es obligatorio")
     private Long sucursal;
+
+    @NotNull(message = "El ID del producto es obligatorio")
+    private Long producto;
 }

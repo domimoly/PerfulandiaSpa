@@ -1,5 +1,7 @@
 package com.example.ms_inventario.dto;
 
+import java.time.LocalDate;
+
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -23,4 +25,10 @@ public class InventarioDTO {
     @NotNull(message = "El stock mínimo es obligatorio")
     @Min(value = 0, message = "El stock mínimo no puede ser negativo")
     private Integer stockMinimo;
+
+    @NotNull(message = "La fecha del inventario es obligatoria")
+    private LocalDate fechaInventario;
+
+    @NotNull(message = "El ID del proveedor es obligatorio")
+    private Long proveedor;
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.ms_proveedor.client.ProductoClient;
 import com.example.ms_proveedor.client.SucursalClient;
 import com.example.ms_proveedor.dto.ProveedorDTO;
 import com.example.ms_proveedor.dto.ProveedorResponse;
@@ -22,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ProveedorService {
     private final ProveedorRepository proveedorRepo;
     private final SucursalClient sucursalClient;
+    private final ProductoClient productoClient;
 
     public ProveedorResponse crear(ProveedorDTO dto, String token) {
         log.info("Crear proveedor", keyValue("Nombre de Proveedor", dto.getNombre()));
@@ -31,7 +33,11 @@ public class ProveedorService {
             throw new RuntimeException("Sucursal no existe");
         }
 
-        Proveedor p = proveedorRepo.save(new Proveedor(null, dto.getNombre(), dto.getEmail(), dto.getTelefono(), dto.getDireccion(), dto.getSucursal()));
+        var productoR = productoClient.obtenerProducto(dto.getProducto(), token);
+        if (productoR == null) {
+            throw new RuntimeException("Producto no existe");
+        }
+        Proveedor p = proveedorRepo.save(new Proveedor(null, dto.getNombre(), dto.getEmail(), dto.getTelefono(), dto.getDireccion(), dto.getSucursal(), dto.getProducto()));
         return mapToResponse(p, token);
     }
 
@@ -59,6 +65,11 @@ public class ProveedorService {
             throw new RuntimeException("Sucursal no existe");
         }
 
+        var productoR = productoClient.obtenerProducto(dto.getProducto(), token);
+        if (productoR == null) {
+            throw new RuntimeException("Producto no existe");
+        }
+
         Proveedor p = proveedorRepo.findById(id)
         .orElseThrow(() -> new EntityNotFoundException("Proveedor no encontrado"));
         p.setNombre(dto.getNombre());
@@ -66,6 +77,7 @@ public class ProveedorService {
         p.setTelefono(dto.getTelefono());
         p.setDireccion(dto.getDireccion());
         p.setSucursal(dto.getSucursal());
+        p.setProducto(dto.getProducto());
         
         return mapToResponse(proveedorRepo.save(p), token);
     }
@@ -76,14 +88,16 @@ public class ProveedorService {
     }
 
     private ProveedorResponse mapToResponse(Proveedor p, String token) {
-        var sucursalR = sucursalClient.obtenerSucursal(p.getSucursal(), token);
-        return ProveedorResponse.builder()
-            .id(p.getId())
-            .nombre(p.getNombre())
-            .email(p.getEmail())
-            .telefono(p.getTelefono())
-            .direccion(p.getDireccion())
-            .sucursal(sucursalR)
-            .build();
+    var sucursalR = sucursalClient.obtenerSucursal(p.getSucursal(), token);
+    var productoR = productoClient.obtenerProducto(p.getProducto(), token);
+    return ProveedorResponse.builder()
+        .id(p.getId())
+        .nombre(p.getNombre())
+        .email(p.getEmail())
+        .telefono(p.getTelefono())
+        .direccion(p.getDireccion())
+        .sucursal(sucursalR)
+        .producto(productoR)
+        .build();
     }
 }

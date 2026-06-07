@@ -1,5 +1,7 @@
 package com.example.ms_inventario.dto;
 
+import java.time.LocalDate;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,4 +17,6 @@ public class InventarioResponse {
     private SucursalResponse sucursal; 
     private Integer cantidad; 
     private Integer stockMinimo;
+    private LocalDate fechaInventario;
+    private ProveedorResponse proveedor;
 }

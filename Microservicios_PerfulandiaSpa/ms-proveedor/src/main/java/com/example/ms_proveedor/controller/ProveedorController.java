@@ -25,7 +25,7 @@ import com.example.ms_proveedor.service.ProveedorService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/proveedores")
+@RequestMapping("/api/v2/proveedores")
 @RequiredArgsConstructor
 public class ProveedorController {
     private final ProveedorService proveedorService;

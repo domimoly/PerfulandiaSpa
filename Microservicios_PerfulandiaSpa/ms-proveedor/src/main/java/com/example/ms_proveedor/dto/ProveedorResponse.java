@@ -16,4 +16,5 @@ public class ProveedorResponse {
     private String telefono;
     private String direccion;
     private SucursalResponse sucursal;
+    private ProductoResponse producto;
 }

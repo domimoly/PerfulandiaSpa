@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.ms_inventario.client.ProductoClient;
+import com.example.ms_inventario.client.ProveedorClient;
 import com.example.ms_inventario.client.SucursalClient;
 import com.example.ms_inventario.dto.InventarioDTO;
 import com.example.ms_inventario.dto.InventarioResponse;
@@ -24,24 +25,23 @@ public class InventarioService {
     private final InventarioRepository invRepo;
     private final ProductoClient productoClient;
     private final SucursalClient sucursalClient;
+    private final ProveedorClient proveedorClient;
 
     public InventarioResponse crear(InventarioDTO dto, String token) {
         log.info("Crear registro de inventario", keyValue("Producto ID", dto.getProducto()), keyValue("Sucursal ID", dto.getSucursal()));
 
         var productoR = productoClient.obtenerProducto(dto.getProducto(), token);
+        if (productoR == null) throw new RuntimeException("Producto no existe");
+
         var sucursalR = sucursalClient.obtenerSucursal(dto.getSucursal(), token);
+        if (sucursalR == null) throw new RuntimeException("Sucursal no existe");
 
-        if (productoR == null) {
-            throw new RuntimeException("Producto no existe");
-        }
-
-        if (sucursalR == null) {
-            throw new RuntimeException("Sucursal no existe");
-        }
+        var proveedorR = proveedorClient.obtenerProveedor(dto.getProveedor(), token);
+        if (proveedorR == null) throw new RuntimeException("Proveedor no existe");
 
         Inventario inventario = invRepo.save(
-            new Inventario(null, dto.getProducto(), dto.getSucursal(), dto.getCantidad(), dto.getStockMinimo()));
-        
+            new Inventario(null, dto.getProducto(), dto.getSucursal(), dto.getCantidad(), dto.getStockMinimo(), dto.getFechaInventario(), dto.getProveedor()));
+
         return mapToResponse(inventario, token);
     }
 
@@ -58,22 +58,21 @@ public class InventarioService {
 
         Inventario inventario = invRepo.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Inventario no encontrado"));
-                
+
         return mapToResponse(inventario, token);
     }
 
     public InventarioResponse actualizar(Long id, InventarioDTO dto, String token) {
         log.info("Actualizar inventario", keyValue("id", id));
+
         var productoR = productoClient.obtenerProducto(dto.getProducto(), token);
+        if (productoR == null) throw new RuntimeException("Transacción bloqueada: Producto no existe en los registros");
+
         var sucursalR = sucursalClient.obtenerSucursal(dto.getSucursal(), token);
+        if (sucursalR == null) throw new RuntimeException("Sucursal no existe");
 
-        if (productoR == null) {
-            throw new RuntimeException("Transacción bloqueada: Producto no existe en los registros");
-        }
-
-        if (sucursalR == null) {
-            throw new RuntimeException("Sucursal no existe");
-        }
+        var proveedorR = proveedorClient.obtenerProveedor(dto.getProveedor(), token);
+        if (proveedorR == null) throw new RuntimeException("Proveedor no existe");
 
         Inventario i = invRepo.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Inventario no encontrado"));
@@ -82,6 +81,9 @@ public class InventarioService {
         i.setSucursal(dto.getSucursal());
         i.setCantidad(dto.getCantidad());
         i.setStockMinimo(dto.getStockMinimo());
+        i.setFechaInventario(dto.getFechaInventario());
+        i.setProveedor(dto.getProveedor());
+
         return mapToResponse(invRepo.save(i), token);
     }
 
@@ -93,12 +95,15 @@ public class InventarioService {
     private InventarioResponse mapToResponse(Inventario inventario, String token) {
         var productoR = productoClient.obtenerProducto(inventario.getProducto(), token);
         var sucursalR = sucursalClient.obtenerSucursal(inventario.getSucursal(), token);
+        var proveedorR = proveedorClient.obtenerProveedor(inventario.getProveedor(), token);
         return InventarioResponse.builder()
                 .id(inventario.getId())
                 .producto(productoR)
                 .sucursal(sucursalR)
                 .cantidad(inventario.getCantidad())
                 .stockMinimo(inventario.getStockMinimo())
+                .fechaInventario(inventario.getFechaInventario())
+                .proveedor(proveedorR)
                 .build();
     }
 }

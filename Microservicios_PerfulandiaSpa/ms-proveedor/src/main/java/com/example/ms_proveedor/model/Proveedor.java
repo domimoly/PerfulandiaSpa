@@ -24,5 +24,6 @@ public class Proveedor {
     private String telefono;
     private String direccion;
     private Long sucursal;
+    private Long producto;
 }
 

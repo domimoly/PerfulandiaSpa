@@ -3,7 +3,7 @@ package com.example.ms_inventario.dto;
 import lombok.Data;
 
 @Data
-public class ProductoResponse {
+public class ProveedorResponse {
     private String nombre;
-    private Integer cantidad;
+    private String email;
 }
