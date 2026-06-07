@@ -15,7 +15,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/cupones")
+@RequestMapping("/api/v2/cupones")
 @RequiredArgsConstructor
 public class CuponDescuentoController {
     private final CuponDescuentoService cuponService;
