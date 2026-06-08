@@ -54,7 +54,6 @@
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-mysql</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
@@ -84,6 +83,11 @@
    			<groupId>io.jsonwebtoken</groupId>
     		<artifactId>jjwt-api</artifactId>
    			 <version>0.11.5</version>
+		</dependency>
+		<dependency>
+    		<groupId>org.springframework.boot</groupId>
+    		<artifactId>spring-boot-starter-test</artifactId>
+    		<scope>test</scope>
 		</dependency>
 		<dependency>
     		<groupId>io.jsonwebtoken</groupId>

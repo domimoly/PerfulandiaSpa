@@ -10,10 +10,8 @@ import com.example.ms_cliente.repository.ClienteRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import lombok.var;
 import lombok.extern.slf4j.Slf4j;
 import static net.logstash.logback.argument.StructuredArguments.keyValue;
-
 import java.util.List;
 
 @Service
