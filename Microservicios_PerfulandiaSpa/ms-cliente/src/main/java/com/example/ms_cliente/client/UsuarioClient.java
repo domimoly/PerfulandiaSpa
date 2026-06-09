@@ -14,7 +14,7 @@ public class UsuarioClient {
 
     private final WebClient webClient;
 
-    private final String BASE_URL = "http://localhost:8083/api/usuarios";
+    private final String BASE_URL = "http://localhost:8083/api/usuarios/";
 
     public UsuarioResponse obtenerUsuario(Long id, String token) {
 
