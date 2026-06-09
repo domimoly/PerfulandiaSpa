@@ -23,4 +23,5 @@ public class Producto {
     private String descripcion;
     private double precio;
     private Integer cantidad;
+    private Long categoria;
 }

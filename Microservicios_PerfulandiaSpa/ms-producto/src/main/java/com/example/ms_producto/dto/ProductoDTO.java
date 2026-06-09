@@ -23,4 +23,7 @@ public class ProductoDTO {
     @NotNull(message = "La cantidad es necesaria")
     @Min(value = 0, message = "La cantidad no puede ser negativa.")
     private Integer cantidad;
+
+    @NotNull(message = "El ID de la categoría es obligatorio")
+    private Long categoria;
 }
