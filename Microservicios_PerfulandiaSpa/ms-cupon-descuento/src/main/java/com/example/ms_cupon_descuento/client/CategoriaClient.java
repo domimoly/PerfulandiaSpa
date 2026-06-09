@@ -4,24 +4,24 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.example.ms_cupon_descuento.dto.ApiResponse;
-import com.example.ms_cupon_descuento.dto.ProductoReponse;
+import com.example.ms_cupon_descuento.dto.CategoriaResponse;
 
 import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class ProductoClient {
+public class CategoriaClient {
 
     private final WebClient webClient;
 
-    private final String BASE_URL = "http://localhost:8088/api/v2/productos/";
+    private final String BASE_URL = "http://localhost:8094/api/v2/categorias/";
 
-    public ProductoReponse obtenerProducto(Long id, String token) {
-        ApiResponse<ProductoReponse> response = webClient.get()
+    public CategoriaResponse obtenerCategoria(Long id, String token) {
+        ApiResponse<CategoriaResponse> response = webClient.get()
                 .uri(BASE_URL + id)
                 .header("Authorization", token)
                 .retrieve()
-                .bodyToMono(new org.springframework.core.ParameterizedTypeReference<ApiResponse<ProductoReponse>>() {})
+                .bodyToMono(new org.springframework.core.ParameterizedTypeReference<ApiResponse<CategoriaResponse>>() {})
                 .block();
 
         return response != null ? response.getData() : null;

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CuponResponse {
     private Long id;
-    private String nombreProducto; 
+    private CategoriaResponse categoria;
     private String codigo;
     private Double porcentajeDescuento;
     private LocalDate fechaVencimiento;

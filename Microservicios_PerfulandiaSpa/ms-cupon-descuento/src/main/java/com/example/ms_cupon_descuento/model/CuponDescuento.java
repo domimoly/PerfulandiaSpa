@@ -15,13 +15,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="cupon_descuento")
+@Table(name = "cupon_descuento")
 public class CuponDescuento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long producto;
+    private Long categoria;
     private String codigo;
     private Double porcentajeDescuento;
     private LocalDate fechaVencimiento;

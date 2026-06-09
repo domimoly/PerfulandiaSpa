@@ -1,6 +1,6 @@
 CREATE TABLE cupon_descuento (
     id INTEGER NOT NULL AUTO_INCREMENT,
-    producto INTEGER,
+    categoria INTEGER,
     codigo VARCHAR(50),
     porcentaje_descuento DOUBLE,
     fecha_vencimiento DATE,
@@ -8,14 +8,14 @@ CREATE TABLE cupon_descuento (
     PRIMARY KEY (id)
 );
 
--- Producto 1 | Carolina Herrera
-INSERT INTO cupon_descuento (producto, codigo, porcentaje_descuento, fecha_vencimiento, activo) 
-VALUES (1, 'VERANO20', 20.0, '2026-12-31', true);
+-- Categoria 1 | Perfume Hombre
+INSERT INTO cupon_descuento (categoria, codigo, porcentaje_descuento, fecha_vencimiento, activo)
+VALUES (1, 'HOMBRE20', 20.0, '2026-12-31', true);
 
--- Producto 2 | Dior Sauvage
-INSERT INTO cupon_descuento (producto, codigo, porcentaje_descuento, fecha_vencimiento, activo) 
-VALUES (2, 'BIENVENIDA10', 10.0, '2026-12-31', true);
+-- Categoria 1 | Perfume Hombre (segundo cupón)
+INSERT INTO cupon_descuento (categoria, codigo, porcentaje_descuento, fecha_vencimiento, activo)
+VALUES (1, 'VERANO10', 10.0, '2026-08-31', true);
 
--- Producto 3 | Calvin Klein CK One
-INSERT INTO cupon_descuento (producto, codigo, porcentaje_descuento, fecha_vencimiento, activo) 
-VALUES (3, 'INVIERNO15', 15.0, '2026-06-01', true);
+-- Categoria 2 | Perfume Mujer
+INSERT INTO cupon_descuento (categoria, codigo, porcentaje_descuento, fecha_vencimiento, activo)
+VALUES (2, 'MUJER15', 15.0, '2026-12-31', true);
