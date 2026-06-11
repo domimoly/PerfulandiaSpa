@@ -170,6 +170,7 @@ class InventarioServiceTest {
 
         assertNotNull(resultado);
         assertEquals(1L, resultado.getId());
+        assertEquals(50, resultado.getCantidad());
 
         verify(invRepo).save(any(Inventario.class));
     }
@@ -212,6 +213,7 @@ class InventarioServiceTest {
         InventarioResponse resultado = service.actualizar(1L, dto, token);
 
         assertEquals(100, resultado.getCantidad());
+        assertEquals(15, resultado.getStockMinimo());
 
         verify(invRepo).findById(1L);
         verify(invRepo).save(existente);
@@ -226,10 +228,8 @@ class InventarioServiceTest {
 
         verify(invRepo).deleteById(1L);
     }
-
     @Test
     void deberiaLanzarExcepcionSiProductoNoExisteAlCrear() {
-
         InventarioDTO dto = new InventarioDTO();
         dto.setProducto(99L);
         dto.setSucursal(1L);

@@ -189,4 +189,25 @@ class ProductoServiceTest {
         verify(productoRepo).deleteById(1L);
     }
 
+    @Test
+    void deberiaLanzarExcepcionSiCategoriaNoExisteAlCrear() {
+
+        ProductoDTO dto = new ProductoDTO();
+        dto.setNombre("Producto sin categoria");
+        dto.setDescripcion("Desc test");
+        dto.setPrecio(10000.0);
+        dto.setCantidad(5);
+        dto.setCategoria(99L);
+
+        when(categoriaClient.obtenerCategoria(anyLong(), anyString())).thenReturn(null);
+
+        RuntimeException ex = assertThrows(
+                RuntimeException.class,
+                () -> service.crear(dto, token)
+        );
+
+        assertEquals("Categoría no existe", ex.getMessage());
+
+        verify(productoRepo, never()).save(any());
+    }
 }

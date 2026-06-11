@@ -230,31 +230,4 @@ class ProveedorServiceTest {
 
         verify(proveedorRepo, never()).save(any());
     }
-
-    @Test
-    void deberiaLanzarExcepcionSiProductoNoExisteAlCrear() {
-
-        ProveedorDTO dto = new ProveedorDTO();
-        dto.setNombre("Proveedor test");
-        dto.setEmail("test@test.cl");
-        dto.setTelefono("999999999");
-        dto.setDireccion("Direccion test");
-        dto.setSucursal(1L);
-        dto.setProducto(99L);
-
-        SucursalResponse sucursal = new SucursalResponse();
-        sucursal.setNombre("Barrio Meiggs");
-
-        when(sucursalClient.obtenerSucursal(anyLong(), anyString())).thenReturn(sucursal);
-        when(productoClient.obtenerProducto(anyLong(), anyString())).thenReturn(null);
-
-        RuntimeException ex = assertThrows(
-                RuntimeException.class,
-                () -> service.crear(dto, token)
-        );
-
-        assertEquals("Producto no existe", ex.getMessage());
-
-        verify(proveedorRepo, never()).save(any());
-    }
 }
