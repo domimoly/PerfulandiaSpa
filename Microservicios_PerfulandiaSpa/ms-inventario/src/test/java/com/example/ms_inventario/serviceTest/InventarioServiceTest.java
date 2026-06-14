@@ -51,6 +51,7 @@ class InventarioServiceTest {
     @Test
     void deberiaRetornarInventarioCuandoExiste() {
 
+        // Arrange
         Inventario inventario = new Inventario();
         inventario.setId(1L);
         inventario.setProducto(1L);
@@ -74,8 +75,10 @@ class InventarioServiceTest {
         when(sucursalClient.obtenerSucursal(anyLong(), anyString())).thenReturn(sucursal);
         when(proveedorClient.obtenerProveedor(anyLong(), anyString())).thenReturn(proveedor);
 
+        // Act
         InventarioResponse resultado = service.obtener(1L, token);
 
+        // Assert
         assertNotNull(resultado);
         assertEquals(1L, resultado.getId());
         assertEquals(50, resultado.getCantidad());
@@ -86,8 +89,10 @@ class InventarioServiceTest {
     @Test
     void deberiaLanzarExcepcionCuandoInventarioNoExiste() {
 
+        // Arrange
         when(invRepo.findById(99L)).thenReturn(Optional.empty());
 
+        // Act + Assert
         EntityNotFoundException ex = assertThrows(
                 EntityNotFoundException.class,
                 () -> service.obtener(99L, token)
@@ -101,6 +106,7 @@ class InventarioServiceTest {
     @Test
     void deberiaRetornarListaInventarios() {
 
+        // Arrange
         Inventario inventario = new Inventario();
         inventario.setId(1L);
         inventario.setProducto(1L);
@@ -124,8 +130,10 @@ class InventarioServiceTest {
         when(sucursalClient.obtenerSucursal(anyLong(), anyString())).thenReturn(sucursal);
         when(proveedorClient.obtenerProveedor(anyLong(), anyString())).thenReturn(proveedor);
 
+        // Act
         List<InventarioResponse> resultado = service.listar(token);
 
+        // Assert
         assertFalse(resultado.isEmpty());
         assertEquals(1, resultado.size());
 
@@ -135,6 +143,7 @@ class InventarioServiceTest {
     @Test
     void deberiaCrearInventarioCorrectamente() {
 
+        // Arrange
         InventarioDTO dto = new InventarioDTO();
         dto.setProducto(1L);
         dto.setSucursal(1L);
@@ -166,8 +175,10 @@ class InventarioServiceTest {
         when(proveedorClient.obtenerProveedor(anyLong(), anyString())).thenReturn(proveedor);
         when(invRepo.save(any(Inventario.class))).thenReturn(inventarioGuardado);
 
+        // Act
         InventarioResponse resultado = service.crear(dto, token);
 
+        // Assert
         assertNotNull(resultado);
         assertEquals(1L, resultado.getId());
         assertEquals(50, resultado.getCantidad());
@@ -178,6 +189,7 @@ class InventarioServiceTest {
     @Test
     void deberiaActualizarInventarioCorrectamente() {
 
+        // Arrange
         Inventario existente = new Inventario();
         existente.setId(1L);
         existente.setProducto(1L);
@@ -210,8 +222,10 @@ class InventarioServiceTest {
         when(invRepo.findById(1L)).thenReturn(Optional.of(existente));
         when(invRepo.save(any(Inventario.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
+        // Act
         InventarioResponse resultado = service.actualizar(1L, dto, token);
 
+        // Assert
         assertEquals(100, resultado.getCantidad());
         assertEquals(15, resultado.getStockMinimo());
 
@@ -222,14 +236,20 @@ class InventarioServiceTest {
     @Test
     void deberiaEliminarInventarioPorId() {
 
+        // Arrange
         doNothing().when(invRepo).deleteById(1L);
 
+        // Act
         service.eliminar(1L);
 
+        // Assert
         verify(invRepo).deleteById(1L);
     }
+
     @Test
     void deberiaLanzarExcepcionSiProductoNoExisteAlCrear() {
+
+        // Arrange
         InventarioDTO dto = new InventarioDTO();
         dto.setProducto(99L);
         dto.setSucursal(1L);
@@ -240,6 +260,7 @@ class InventarioServiceTest {
 
         when(productoClient.obtenerProducto(anyLong(), anyString())).thenReturn(null);
 
+        // Act + Assert
         RuntimeException ex = assertThrows(
                 RuntimeException.class,
                 () -> service.crear(dto, token)

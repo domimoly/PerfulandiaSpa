@@ -45,6 +45,7 @@ class ProveedorServiceTest {
     @Test
     void deberiaRetornarProveedorCuandoExiste() {
 
+        // Arrange
         Proveedor proveedor = new Proveedor();
         proveedor.setId(1L);
         proveedor.setNombre("Perfumeria Italiana");
@@ -64,8 +65,10 @@ class ProveedorServiceTest {
         when(sucursalClient.obtenerSucursal(anyLong(), anyString())).thenReturn(sucursal);
         when(productoClient.obtenerProducto(anyLong(), anyString())).thenReturn(producto);
 
+        // Act
         ProveedorResponse resultado = service.obtener(1L, token);
 
+        // Assert
         assertNotNull(resultado);
         assertEquals(1L, resultado.getId());
         assertEquals("Perfumeria Italiana", resultado.getNombre());
@@ -76,8 +79,10 @@ class ProveedorServiceTest {
     @Test
     void deberiaLanzarExcepcionCuandoProveedorNoExiste() {
 
+        // Arrange
         when(proveedorRepo.findById(99L)).thenReturn(Optional.empty());
 
+        // Act + Assert
         EntityNotFoundException ex = assertThrows(
                 EntityNotFoundException.class,
                 () -> service.obtener(99L, token)
@@ -91,6 +96,7 @@ class ProveedorServiceTest {
     @Test
     void deberiaRetornarListaProveedores() {
 
+        // Arrange
         Proveedor proveedor = new Proveedor();
         proveedor.setId(1L);
         proveedor.setNombre("Perfumeria Italiana");
@@ -110,8 +116,10 @@ class ProveedorServiceTest {
         when(sucursalClient.obtenerSucursal(anyLong(), anyString())).thenReturn(sucursal);
         when(productoClient.obtenerProducto(anyLong(), anyString())).thenReturn(producto);
 
+        // Act
         List<ProveedorResponse> resultado = service.listar(token);
 
+        // Assert
         assertFalse(resultado.isEmpty());
         assertEquals(1, resultado.size());
         assertEquals("Perfumeria Italiana", resultado.get(0).getNombre());
@@ -122,6 +130,7 @@ class ProveedorServiceTest {
     @Test
     void deberiaCrearProveedorCorrectamente() {
 
+        // Arrange
         ProveedorDTO dto = new ProveedorDTO();
         dto.setNombre("Perfumeria Italiana");
         dto.setEmail("contacto@perfumeriaitaliana.cl");
@@ -149,8 +158,10 @@ class ProveedorServiceTest {
         when(productoClient.obtenerProducto(anyLong(), anyString())).thenReturn(producto);
         when(proveedorRepo.save(any(Proveedor.class))).thenReturn(proveedorGuardado);
 
+        // Act
         ProveedorResponse resultado = service.crear(dto, token);
 
+        // Assert
         assertNotNull(resultado);
         assertEquals(1L, resultado.getId());
         assertEquals("Perfumeria Italiana", resultado.getNombre());
@@ -161,6 +172,7 @@ class ProveedorServiceTest {
     @Test
     void deberiaActualizarProveedorCorrectamente() {
 
+        // Arrange
         Proveedor existente = new Proveedor();
         existente.setId(1L);
         existente.setNombre("Proveedor viejo");
@@ -189,8 +201,10 @@ class ProveedorServiceTest {
         when(proveedorRepo.findById(1L)).thenReturn(Optional.of(existente));
         when(proveedorRepo.save(any(Proveedor.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
+        // Act
         ProveedorResponse resultado = service.actualizar(1L, dto, token);
 
+        // Assert
         assertEquals("Proveedor nuevo", resultado.getNombre());
         assertEquals("nuevo@test.cl", resultado.getEmail());
 
@@ -201,16 +215,20 @@ class ProveedorServiceTest {
     @Test
     void deberiaEliminarProveedorPorId() {
 
+        // Arrange
         doNothing().when(proveedorRepo).deleteById(1L);
 
+        // Act
         service.eliminar(1L);
 
+        // Assert
         verify(proveedorRepo).deleteById(1L);
     }
 
     @Test
     void deberiaLanzarExcepcionSiSucursalNoExisteAlCrear() {
 
+        // Arrange
         ProveedorDTO dto = new ProveedorDTO();
         dto.setNombre("Proveedor test");
         dto.setEmail("test@test.cl");
@@ -221,6 +239,7 @@ class ProveedorServiceTest {
 
         when(sucursalClient.obtenerSucursal(anyLong(), anyString())).thenReturn(null);
 
+        // Act + Assert
         RuntimeException ex = assertThrows(
                 RuntimeException.class,
                 () -> service.crear(dto, token)

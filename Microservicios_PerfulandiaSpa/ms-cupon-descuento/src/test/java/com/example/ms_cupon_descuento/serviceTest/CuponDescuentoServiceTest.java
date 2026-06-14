@@ -41,6 +41,7 @@ class CuponDescuentoServiceTest {
     @Test
     void deberiaRetornarCuponCuandoExiste() {
 
+        // Arrange
         CuponDescuento cupon = new CuponDescuento();
         cupon.setId(1L);
         cupon.setCategoria(1L);
@@ -57,8 +58,10 @@ class CuponDescuentoServiceTest {
         when(cuponRepo.findById(1L)).thenReturn(Optional.of(cupon));
         when(categoriaClient.obtenerCategoria(anyLong(), anyString())).thenReturn(categoria);
 
+        // Act
         CuponResponse resultado = service.obtener(1L, token);
 
+        // Assert
         assertNotNull(resultado);
         assertEquals(1L, resultado.getId());
         assertEquals("HOMBRE20", resultado.getCodigo());
@@ -69,8 +72,10 @@ class CuponDescuentoServiceTest {
     @Test
     void deberiaLanzarExcepcionCuandoCuponNoExiste() {
 
+        // Arrange
         when(cuponRepo.findById(99L)).thenReturn(Optional.empty());
 
+        // Act + Assert
         EntityNotFoundException ex = assertThrows(
                 EntityNotFoundException.class,
                 () -> service.obtener(99L, token)
@@ -84,6 +89,7 @@ class CuponDescuentoServiceTest {
     @Test
     void deberiaRetornarListaCupones() {
 
+        // Arrange
         CuponDescuento cupon = new CuponDescuento();
         cupon.setId(1L);
         cupon.setCategoria(1L);
@@ -100,8 +106,10 @@ class CuponDescuentoServiceTest {
         when(cuponRepo.findAll()).thenReturn(List.of(cupon));
         when(categoriaClient.obtenerCategoria(anyLong(), anyString())).thenReturn(categoria);
 
+        // Act
         List<CuponResponse> resultado = service.listar(token);
 
+        // Assert
         assertFalse(resultado.isEmpty());
         assertEquals(1, resultado.size());
         assertEquals("HOMBRE20", resultado.get(0).getCodigo());
@@ -112,6 +120,7 @@ class CuponDescuentoServiceTest {
     @Test
     void deberiaCrearCuponCorrectamente() {
 
+        // Arrange
         CuponDescuentoDTO dto = new CuponDescuentoDTO();
         dto.setCategoria(1L);
         dto.setCodigo("HOMBRE20");
@@ -135,8 +144,10 @@ class CuponDescuentoServiceTest {
         when(categoriaClient.obtenerCategoria(anyLong(), anyString())).thenReturn(categoria);
         when(cuponRepo.save(any(CuponDescuento.class))).thenReturn(cuponGuardado);
 
+        // Act
         CuponResponse resultado = service.crear(dto, token);
 
+        // Assert
         assertNotNull(resultado);
         assertEquals(1L, resultado.getId());
         assertEquals("HOMBRE20", resultado.getCodigo());
@@ -147,6 +158,7 @@ class CuponDescuentoServiceTest {
     @Test
     void deberiaActualizarCuponCorrectamente() {
 
+        // Arrange
         CuponDescuento existente = new CuponDescuento();
         existente.setId(1L);
         existente.setCategoria(1L);
@@ -171,8 +183,10 @@ class CuponDescuentoServiceTest {
         when(cuponRepo.findById(1L)).thenReturn(Optional.of(existente));
         when(cuponRepo.save(any(CuponDescuento.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
+        // Act
         CuponResponse resultado = service.actualizar(1L, dto, token);
 
+        // Assert
         assertEquals("NUEVO30", resultado.getCodigo());
         assertEquals(30.0, resultado.getPorcentajeDescuento());
 
@@ -183,10 +197,13 @@ class CuponDescuentoServiceTest {
     @Test
     void deberiaEliminarCuponPorId() {
 
+        // Arrange
         doNothing().when(cuponRepo).deleteById(1L);
 
+        // Act
         service.eliminar(1L);
 
+        // Assert
         verify(cuponRepo).deleteById(1L);
     }
 }

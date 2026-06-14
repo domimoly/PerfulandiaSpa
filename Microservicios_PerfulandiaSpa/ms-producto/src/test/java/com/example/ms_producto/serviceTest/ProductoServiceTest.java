@@ -40,6 +40,7 @@ class ProductoServiceTest {
     @Test
     void deberiaRetornarProductoCuandoExiste() {
 
+        // Arrange
         Producto producto = new Producto();
         producto.setId(1L);
         producto.setNombre("Dior Sauvage");
@@ -56,8 +57,10 @@ class ProductoServiceTest {
         when(productoRepo.findById(1L)).thenReturn(Optional.of(producto));
         when(categoriaClient.obtenerCategoria(anyLong(), anyString())).thenReturn(categoria);
 
+        // Act
         ProductoResponse resultado = service.obtener(1L, token);
 
+        // Assert
         assertNotNull(resultado);
         assertEquals(1L, resultado.getId());
         assertEquals("Dior Sauvage", resultado.getNombre());
@@ -68,8 +71,10 @@ class ProductoServiceTest {
     @Test
     void deberiaLanzarExcepcionCuandoProductoNoExiste() {
 
+        // Arrange
         when(productoRepo.findById(99L)).thenReturn(Optional.empty());
 
+        // Act + Assert
         EntityNotFoundException ex = assertThrows(
                 EntityNotFoundException.class,
                 () -> service.obtener(99L, token)
@@ -83,6 +88,7 @@ class ProductoServiceTest {
     @Test
     void deberiaRetornarListaProductos() {
 
+        // Arrange
         Producto producto = new Producto();
         producto.setId(1L);
         producto.setNombre("Dior Sauvage");
@@ -99,8 +105,10 @@ class ProductoServiceTest {
         when(productoRepo.findAll()).thenReturn(List.of(producto));
         when(categoriaClient.obtenerCategoria(anyLong(), anyString())).thenReturn(categoria);
 
+        // Act
         List<ProductoResponse> resultado = service.listar(token);
 
+        // Assert
         assertFalse(resultado.isEmpty());
         assertEquals(1, resultado.size());
         assertEquals("Dior Sauvage", resultado.get(0).getNombre());
@@ -111,6 +119,7 @@ class ProductoServiceTest {
     @Test
     void deberiaCrearProductoCorrectamente() {
 
+        // Arrange
         ProductoDTO dto = new ProductoDTO();
         dto.setNombre("Dior Sauvage");
         dto.setDescripcion("Fragancia masculina 100ml");
@@ -134,8 +143,10 @@ class ProductoServiceTest {
         when(categoriaClient.obtenerCategoria(anyLong(), anyString())).thenReturn(categoria);
         when(productoRepo.save(any(Producto.class))).thenReturn(productoGuardado);
 
+        // Act
         ProductoResponse resultado = service.crear(dto, token);
 
+        // Assert
         assertNotNull(resultado);
         assertEquals(1L, resultado.getId());
         assertEquals("Dior Sauvage", resultado.getNombre());
@@ -146,6 +157,7 @@ class ProductoServiceTest {
     @Test
     void deberiaActualizarProductoCorrectamente() {
 
+        // Arrange
         Producto existente = new Producto();
         existente.setId(1L);
         existente.setNombre("Producto viejo");
@@ -170,8 +182,10 @@ class ProductoServiceTest {
         when(productoRepo.findById(1L)).thenReturn(Optional.of(existente));
         when(productoRepo.save(any(Producto.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
+        // Act
         ProductoResponse resultado = service.actualizar(1L, dto, token);
 
+        // Assert
         assertEquals("Producto nuevo", resultado.getNombre());
         assertEquals(20000.0, resultado.getPrecio());
 
@@ -182,16 +196,20 @@ class ProductoServiceTest {
     @Test
     void deberiaEliminarProductoPorId() {
 
+        // Arrange
         doNothing().when(productoRepo).deleteById(1L);
 
+        // Act
         service.eliminar(1L);
 
+        // Assert
         verify(productoRepo).deleteById(1L);
     }
 
     @Test
     void deberiaLanzarExcepcionSiCategoriaNoExisteAlCrear() {
 
+        // Arrange
         ProductoDTO dto = new ProductoDTO();
         dto.setNombre("Producto sin categoria");
         dto.setDescripcion("Desc test");
@@ -201,6 +219,7 @@ class ProductoServiceTest {
 
         when(categoriaClient.obtenerCategoria(anyLong(), anyString())).thenReturn(null);
 
+        // Act + Assert
         RuntimeException ex = assertThrows(
                 RuntimeException.class,
                 () -> service.crear(dto, token)
