@@ -2,6 +2,9 @@ package com.example.ms_orden.controller;
 
 import java.util.List;
 
+import org.springframework.hateoas.EntityModel;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -88,13 +91,38 @@ public class OrdenController {
     })
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<ApiResponse<Orden>> obtener(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<EntityModel<Orden>>> obtener(@PathVariable Long id) {
+
+        Orden orden = ordenService.obtener(id);
+
+    EntityModel<Orden> recurso = EntityModel.of(orden);
+
+    recurso.add(
+            linkTo(methodOn(OrdenController.class).obtener(id))
+                    .withSelfRel()
+    );
+
+    recurso.add(
+            linkTo(methodOn(OrdenController.class).listar())
+                    .withRel("all")
+    );
+
+    recurso.add(
+            linkTo(methodOn(OrdenController.class).actualizar(id, null))
+                    .withRel("update")
+    );
+
+    recurso.add(
+            linkTo(methodOn(OrdenController.class).eliminar(id))
+                    .withRel("delete")
+    );
+
 
         return ResponseEntity.ok(
-                ApiResponse.<Orden>builder()
+                ApiResponse.<EntityModel<Orden>>builder()
                         .success(true)
                         .message("Orden obtenida")
-                        .data(ordenService.obtener(id))
+                        .data(recurso)
                         .build()
         );
     }

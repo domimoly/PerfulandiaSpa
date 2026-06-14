@@ -2,6 +2,9 @@ package com.example.ms_devolucion.controller;
 
 import java.util.List;
 
+import org.springframework.hateoas.EntityModel;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -90,13 +93,38 @@ public class DevolucionController {
     })
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<ApiResponse<Devolucion>> obtener(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<EntityModel<Devolucion>>> obtener(@PathVariable Long id) {
+
+        Devolucion devolucion = devolucionService.obtener(id);
+
+    EntityModel<Devolucion> recurso = EntityModel.of(devolucion);
+
+    recurso.add(
+            linkTo(methodOn(DevolucionController.class).obtener(id))
+                    .withSelfRel()
+    );
+
+    recurso.add(
+            linkTo(methodOn(DevolucionController.class).listar())
+                    .withRel("all")
+    );
+
+    recurso.add(
+            linkTo(methodOn(DevolucionController.class).actualizar(id, null))
+                    .withRel("update")
+    );
+
+    recurso.add(
+            linkTo(methodOn(DevolucionController.class).eliminar(id))
+                    .withRel("delete")
+    );
+
 
         return ResponseEntity.ok(
-                ApiResponse.<Devolucion>builder()
+                ApiResponse.<EntityModel<Devolucion>>builder()
                         .success(true)
                         .message("Devolución obtenida")
-                        .data(devolucionService.obtener(id))
+                        .data(recurso)
                         .build()
         );
     }

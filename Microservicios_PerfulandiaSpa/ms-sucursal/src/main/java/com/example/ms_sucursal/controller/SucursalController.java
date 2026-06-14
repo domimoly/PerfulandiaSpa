@@ -2,6 +2,9 @@ package com.example.ms_sucursal.controller;
 
 import java.util.List;
 
+import org.springframework.hateoas.EntityModel;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -90,13 +93,38 @@ public class SucursalController {
     })
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<ApiResponse<Sucursal>> obtener(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<EntityModel<Sucursal>>> obtener(@PathVariable Long id) {
 
+        Sucursal sucursal = sucursalService.obtener(id);
+
+        EntityModel<Sucursal> recurso = EntityModel.of(sucursal);
+
+        recurso.add(
+                linkTo(methodOn(SucursalController.class).obtener(id))
+                        .withSelfRel()
+        );
+
+        recurso.add(
+                linkTo(methodOn(SucursalController.class).listar())
+                    .withRel("all")
+        );
+
+        recurso.add(
+                linkTo(methodOn(SucursalController.class).actualizar(id, null))
+                        .withRel("update")
+        );
+
+        recurso.add(
+                linkTo(methodOn(SucursalController.class).eliminar(id))
+                        .withRel("delete")
+        );
+
+        
         return ResponseEntity.ok(
-                ApiResponse.<Sucursal>builder()
+                ApiResponse.<EntityModel<Sucursal>>builder()
                         .success(true)
                         .message("Sucursal obtenida")
-                        .data(sucursalService.obtener(id))
+                        .data(recurso)
                         .build()
         );
     }
