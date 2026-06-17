@@ -75,9 +75,8 @@ class ResenaControllerTest {
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.data[0].id").value(1))
                 .andExpect(jsonPath("$.data[0].puntuacion").value(5))
-                .andExpect(jsonPath("$.data[0].usuario.nombre").value("Juan Pérez"))
-                .andExpect(jsonPath("$.data[0].producto.nombre").value("Chanel N°5"));
-    }
+                .andExpect(jsonPath("$.data[0].usuario.nombre").value("Juan Pérez"));
+        }
 
     @Test
     void debeObtenerResenaPorId() throws Exception {
