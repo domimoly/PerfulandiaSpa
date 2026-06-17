@@ -26,9 +26,13 @@
 		<tag/>
 		<url/>
 	</scm>
+
+	<!-- 3.2 | Guía 2 | spring-cloud.version -->
 	<properties>
 		<java.version>17</java.version>
+		<spring-cloud.version>2025.1.0</spring-cloud.version>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -134,7 +138,27 @@
 			<artifactId>h2</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- Dependencia Agregada | 3.2 | Guía 2 -->
+		<!-- Dependencia: Eureka Netflix -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
 	</dependencies>
+
+	<!-- Dependencia Agregada | 3.2 | Guía 2 -->
+	<!-- Dependencia: DependencyManagement de Spring-Cloud -->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<plugins>
