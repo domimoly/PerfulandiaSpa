@@ -29,7 +29,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "Usuarios", description = "Operaciones relacionadas con la gestión de usuarios y roles")
 @RestController
-@RequestMapping("/api/usuarios")
+@RequestMapping("/api/v2/usuarios")
 @RequiredArgsConstructor
 public class UsuarioController {
 

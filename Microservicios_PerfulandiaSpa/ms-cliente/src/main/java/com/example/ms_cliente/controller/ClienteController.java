@@ -33,7 +33,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @Tag(name = "Clientes", description = "Operaciones relacionadas con la gestión de clientes")
 @RestController
-@RequestMapping("/api/clientes")
+@RequestMapping("/api/v2/clientes")
 @RequiredArgsConstructor
 public class ClienteController {
 

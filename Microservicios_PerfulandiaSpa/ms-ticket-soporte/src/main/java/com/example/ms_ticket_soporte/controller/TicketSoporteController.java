@@ -31,7 +31,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @Tag(name = "Tickets de Soporte", description = "Operaciones relacionadas con la gestión de tickets de soporte")
 @RestController
-@RequestMapping("/api/tickets")
+@RequestMapping("/api/v2/tickets")
 @RequiredArgsConstructor
 public class TicketSoporteController {
 

@@ -14,7 +14,7 @@ public class ClienteClient {
 
     private final WebClient webClient;
 
-    private final String BASE_URL = "http://localhost:8083/api/clientes/";
+    private final String BASE_URL = "http://localhost:8083/api/v2/clientes/";
 
     public ClienteResponse obtenerCliente(Long id, String token) {
         ApiResponse<ClienteResponse> response = webClient.get()

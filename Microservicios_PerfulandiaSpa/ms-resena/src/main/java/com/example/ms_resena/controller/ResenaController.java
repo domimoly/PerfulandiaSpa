@@ -18,7 +18,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @Tag(name = "Reseñas", description = "Operaciones relacionadas con la gestión de reseñas de productos")
 @RestController
-@RequestMapping("/api/resenas")
+@RequestMapping("/api/v2/resenas")
 @RequiredArgsConstructor
 public class ResenaController {
 
