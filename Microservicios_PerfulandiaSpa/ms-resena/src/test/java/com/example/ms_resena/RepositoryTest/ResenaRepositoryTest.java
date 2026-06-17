@@ -25,19 +25,18 @@ class ResenaRepositoryTest {
 
     @Test
     void debeGuardarResena() {
-        Resena resena = new Resena(null, 5, "Excelente perfume", "2026-01-15", 1L, 1L);
+        Resena resena = new Resena(null, 5, "Excelente perfume", "2026-01-15", 1L);
         Resena guardada = resenaRepository.save(resena);
 
         assertNotNull(guardada.getId());
         assertEquals(5, guardada.getPuntuacion());
         assertEquals("Excelente perfume", guardada.getComentario());
         assertEquals(1L, guardada.getUsuarioId());
-        assertEquals(1L, guardada.getProductoId());
     }
 
     @Test
     void debeBuscarResenaPorId() {
-        Resena resena = new Resena(null, 4, "Muy buen aroma", "2026-02-01", 2L, 1L);
+        Resena resena = new Resena(null, 4, "Muy buen aroma", "2026-02-01", 2L);
         Resena guardada = resenaRepository.save(resena);
 
         Optional<Resena> resultado = resenaRepository.findById(guardada.getId());
@@ -49,8 +48,8 @@ class ResenaRepositoryTest {
 
     @Test
     void debeListarResenas() {
-        resenaRepository.save(new Resena(null, 5, "Increíble", "2026-01-01", 1L, 1L));
-        resenaRepository.save(new Resena(null, 3, "Regular", "2026-02-01", 2L, 2L));
+        resenaRepository.save(new Resena(null, 5, "Increíble", "2026-01-01", 1L));
+        resenaRepository.save(new Resena(null, 3, "Regular", "2026-02-01", 2L));
 
         List<Resena> resultado = resenaRepository.findAll();
 
@@ -60,7 +59,7 @@ class ResenaRepositoryTest {
 
     @Test
     void debeEliminarResena() {
-        Resena resena = new Resena(null, 2, "No me gustó", "2026-03-01", 3L, 1L);
+        Resena resena = new Resena(null, 2, "No me gustó", "2026-03-01", 3L);
         Resena guardada = resenaRepository.save(resena);
 
         resenaRepository.deleteById(guardada.getId());
@@ -71,7 +70,7 @@ class ResenaRepositoryTest {
 
     @Test
     void debeActualizarResena() {
-        Resena resena = new Resena(null, 3, "Comentario original", "2026-01-01", 1L, 1L);
+        Resena resena = new Resena(null, 3, "Comentario original", "2026-01-01", 1L);
         Resena guardada = resenaRepository.save(resena);
 
         guardada.setPuntuacion(5);
@@ -84,14 +83,5 @@ class ResenaRepositoryTest {
         assertEquals("Comentario actualizado", resultado.get().getComentario());
     }
 
-    @Test
-    void debeBuscarResenasPorProducto() {
-        resenaRepository.save(new Resena(null, 5, "Buenísimo", "2026-01-01", 1L, 10L));
-        resenaRepository.save(new Resena(null, 4, "Muy bueno", "2026-01-02", 2L, 10L));
 
-        List<Resena> resultado = resenaRepository.findByProductoId(10L);
-
-        assertFalse(resultado.isEmpty());
-        assertTrue(resultado.size() >= 2);
-    }
 }

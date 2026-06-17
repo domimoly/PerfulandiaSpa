@@ -1,7 +1,6 @@
 package com.example.ms_resena.ControllerTest;
 
-import com.example.ms_resena.controller.ResenaController;
-import com.example.ms_resena.dto.ProductoResponse;
+import com.example.ms_resena.controller.ResenaController; 
 import com.example.ms_resena.dto.ResenaDTO;
 import com.example.ms_resena.dto.ResenaResponse;
 import com.example.ms_resena.dto.UsuarioResponse;
@@ -51,6 +50,8 @@ class ResenaControllerTest {
         }
     }
 
+    private static final String TOKEN = "Bearer test-token";
+
 
     @Test
     void debeListarResenas() throws Exception {
@@ -58,17 +59,12 @@ class ResenaControllerTest {
         usuario.setId(1L);
         usuario.setNombre("Juan Pérez");
 
-        ProductoResponse producto = new ProductoResponse();
-        producto.setId(1L);
-        producto.setNombre("Chanel N°5");
-
         ResenaResponse resena = ResenaResponse.builder()
                 .id(1L)
                 .puntuacion(5)
                 .comentario("Excelente perfume, muy duradero")
                 .fechaResena("2026-01-15")
                 .usuario(usuario)
-                .producto(producto)
                 .build();
 
         when(resenaService.listar(TOKEN)).thenReturn(List.of(resena));
@@ -110,7 +106,7 @@ class ResenaControllerTest {
         dto.setComentario("Excelente perfume, muy duradero");
         dto.setFechaResena("2026-01-15");
         dto.setUsuarioId(1L);
-        dto.setProductoId(1L);
+
 
         ResenaResponse creada = ResenaResponse.builder()
                 .id(1L)
@@ -150,8 +146,7 @@ class ResenaControllerTest {
         dto.setComentario("Muy bueno, lo recomiendo");
         dto.setFechaResena("2026-02-01");
         dto.setUsuarioId(1L);
-        dto.setProductoId(1L);
-
+        
         ResenaResponse actualizada = ResenaResponse.builder()
                 .id(1L)
                 .puntuacion(4)
