@@ -4,6 +4,7 @@ import com.example.ms_cliente.controller.ClienteController;
 import com.example.ms_cliente.dto.ClienteDTO;
 import com.example.ms_cliente.dto.ClienteResponse;
 import com.example.ms_cliente.dto.UsuarioResponse;
+import com.example.ms_cliente.security.JwtUtil;
 import com.example.ms_cliente.service.ClienteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -37,6 +38,9 @@ class ClienteControllerTest {
 
     @MockitoBean
     private ClienteService clienteService;
+
+    @MockitoBean
+    private JwtUtil jwtUtil;
 
     @TestConfiguration
     static class TestConfig {

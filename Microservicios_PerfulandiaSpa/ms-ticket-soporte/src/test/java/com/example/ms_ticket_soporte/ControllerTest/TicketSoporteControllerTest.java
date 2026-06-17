@@ -4,6 +4,7 @@ import com.example.ms_ticket_soporte.controller.TicketSoporteController;
 import com.example.ms_ticket_soporte.dto.ClienteResponse;
 import com.example.ms_ticket_soporte.dto.TicketSoporteDTO;
 import com.example.ms_ticket_soporte.dto.TicketSoporteResponse;
+import com.example.ms_ticket_soporte.security.JwtUtil;
 import com.example.ms_ticket_soporte.service.TicketSoporteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -37,6 +38,10 @@ class TicketSoporteControllerTest {
 
     @MockitoBean
     private TicketSoporteService tsService;
+
+    @MockitoBean
+    private JwtUtil jwtUtil;
+
 
     @TestConfiguration
     static class TestConfig {
