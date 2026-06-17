@@ -22,6 +22,7 @@ import com.example.ms_sucursal.model.Sucursal;
 import com.example.ms_sucursal.service.SucursalService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -93,7 +94,7 @@ public class SucursalController {
     })
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<ApiResponse<EntityModel<Sucursal>>> obtener(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<EntityModel<Sucursal>>> obtener(@Parameter(description = "ID de la sucursal a buscar", example = "1") @PathVariable Long id) {
 
         Sucursal sucursal = sucursalService.obtener(id);
 
@@ -141,7 +142,7 @@ public class SucursalController {
     })
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<Sucursal>> actualizar(@PathVariable Long id, @Valid @RequestBody SucursalDTO dto) {
+    public ResponseEntity<ApiResponse<Sucursal>> actualizar(@Parameter(description = "ID de la sucursal a actualizar", example = "1") @PathVariable Long id, @Valid @RequestBody SucursalDTO dto) {
 
         Sucursal sucursal = sucursalService.actualizar(id, dto);
 
@@ -166,7 +167,7 @@ public class SucursalController {
     })
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<Void>> eliminar(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<Void>> eliminar(@Parameter(description = "ID de la sucursal a eliminar", example = "1") @PathVariable Long id) {
 
         sucursalService.eliminar(id);
 

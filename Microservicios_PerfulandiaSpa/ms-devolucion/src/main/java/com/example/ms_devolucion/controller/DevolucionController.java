@@ -22,6 +22,7 @@ import com.example.ms_devolucion.model.Devolucion;
 import com.example.ms_devolucion.service.DevolucionService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -93,7 +94,7 @@ public class DevolucionController {
     })
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<ApiResponse<EntityModel<Devolucion>>> obtener(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<EntityModel<Devolucion>>> obtener(@Parameter(description = "ID de la devolución a buscar", example = "1") @PathVariable Long id) {
 
         Devolucion devolucion = devolucionService.obtener(id);
 
@@ -141,7 +142,7 @@ public class DevolucionController {
     })
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<Devolucion>> actualizar(@PathVariable Long id,
+    public ResponseEntity<ApiResponse<Devolucion>> actualizar(@Parameter(description = "ID de la devolución a actualizar", example = "1") @PathVariable Long id,
                                                         @Valid @RequestBody DevolucionDTO dto) {
 
         Devolucion devolucion = devolucionService.actualizar(id, dto);
@@ -167,7 +168,7 @@ public class DevolucionController {
     })
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<Void>> eliminar(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<Void>> eliminar(@Parameter(description = "ID de la devolución a eliminar", example = "1") @PathVariable Long id) {
 
         devolucionService.eliminar(id);
 

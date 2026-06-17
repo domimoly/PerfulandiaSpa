@@ -22,6 +22,7 @@ import com.example.ms_orden.model.Orden;
 import com.example.ms_orden.service.OrdenService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -91,7 +92,7 @@ public class OrdenController {
     })
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
-    public ResponseEntity<ApiResponse<EntityModel<Orden>>> obtener(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<EntityModel<Orden>>> obtener(@Parameter(description = "ID de la orden a buscar", example = "1") @PathVariable Long id) {
 
         Orden orden = ordenService.obtener(id);
 
@@ -139,7 +140,7 @@ public class OrdenController {
     })
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<Orden>> actualizar(@PathVariable Long id, @Valid @RequestBody OrdenDTO dto) {
+    public ResponseEntity<ApiResponse<Orden>> actualizar(@Parameter(description = "ID de la orden a actualizar", example = "1") @PathVariable Long id, @Valid @RequestBody OrdenDTO dto) {
 
         Orden orden = ordenService.actualizar(id, dto);
 
@@ -164,7 +165,7 @@ public class OrdenController {
     })
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<Void>> eliminar(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<Void>> eliminar(@Parameter(description = "ID de la orden a eliminar", example = "1") @PathVariable Long id) {
 
         ordenService.eliminar(id);
 
