@@ -492,7 +492,7 @@ services:
     container_name: ms-usuario
     restart: unless-stopped
     ports:
-      - "8094:8094"
+      - "8095:8095"
     environment:
       DB_HOST: mysql-usuario
       DB_PORT: 3306
