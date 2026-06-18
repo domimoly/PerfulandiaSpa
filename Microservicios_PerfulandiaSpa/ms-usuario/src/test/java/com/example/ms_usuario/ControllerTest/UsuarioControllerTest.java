@@ -69,7 +69,7 @@ class UsuarioControllerTest {
 
         when(UsService.listar()).thenReturn(List.of(usuario));
 
-        mockMvc.perform(get("/api/usuarios"))
+        mockMvc.perform(get("/api/v2/usuarios"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.message").value("Listado obtenido"))
@@ -92,7 +92,7 @@ class UsuarioControllerTest {
 
         when(UsService.obtener(1L)).thenReturn(usuario);
 
-        mockMvc.perform(get("/api/usuarios/1"))
+        mockMvc.perform(get("/api/v2/usuarios/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.message").value("Usuario obtenido"))
@@ -123,7 +123,7 @@ class UsuarioControllerTest {
 
         when(UsService.crear(any(UsuarioDTO.class))).thenReturn(creado);
 
-        mockMvc.perform(post("/api/usuarios")
+        mockMvc.perform(post("/api/v2/usuarios")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isCreated())
@@ -137,7 +137,7 @@ class UsuarioControllerTest {
     void debeRetornar400SiDatosInvalidos() throws Exception {
         UsuarioDTO dtoInvalido = new UsuarioDTO();
 
-        mockMvc.perform(post("/api/usuarios")
+        mockMvc.perform(post("/api/v2/usuarios")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dtoInvalido)))
                 .andExpect(status().isBadRequest());
@@ -166,7 +166,7 @@ class UsuarioControllerTest {
 
         when(UsService.actualizar(eq(1L), any(UsuarioDTO.class))).thenReturn(actualizado);
 
-        mockMvc.perform(put("/api/usuarios/1")
+        mockMvc.perform(put("/api/v2/usuarios/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isOk())
@@ -180,7 +180,7 @@ class UsuarioControllerTest {
     void debeEliminarUsuario() throws Exception {
         doNothing().when(UsService).eliminar(1L);
 
-        mockMvc.perform(delete("/api/usuarios/1"))
+        mockMvc.perform(delete("/api/v2/usuarios/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.message").value("Usuario eliminado"));

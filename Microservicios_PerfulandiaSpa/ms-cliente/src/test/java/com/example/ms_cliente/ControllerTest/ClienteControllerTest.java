@@ -68,7 +68,7 @@ class ClienteControllerTest {
 
         when(clienteService.listar(TOKEN)).thenReturn(List.of(cliente));
 
-        mockMvc.perform(get("/api/clientes")
+        mockMvc.perform(get("/api/v2/clientes")
                         .header("Authorization", TOKEN))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
@@ -87,7 +87,7 @@ class ClienteControllerTest {
 
         when(clienteService.obtener(1L, TOKEN)).thenReturn(cliente);
 
-        mockMvc.perform(get("/api/clientes/1")
+        mockMvc.perform(get("/api/v2/clientes/1")
                         .header("Authorization", TOKEN))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
@@ -111,7 +111,7 @@ class ClienteControllerTest {
 
         when(clienteService.crear(any(ClienteDTO.class), eq(TOKEN))).thenReturn(creado);
 
-        mockMvc.perform(post("/api/clientes")
+        mockMvc.perform(post("/api/v2/clientes")
                         .header("Authorization", TOKEN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
@@ -126,7 +126,7 @@ class ClienteControllerTest {
     void debeRetornar400SiDatosInvalidos() throws Exception {
         ClienteDTO dtoInvalido = new ClienteDTO();
 
-        mockMvc.perform(post("/api/clientes")
+        mockMvc.perform(post("/api/v2/clientes")
                         .header("Authorization", TOKEN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dtoInvalido)))
@@ -149,7 +149,7 @@ class ClienteControllerTest {
         when(clienteService.actualizar(eq(1L), any(ClienteDTO.class), eq(TOKEN)))
                 .thenReturn(actualizado);
 
-        mockMvc.perform(put("/api/clientes/1")
+        mockMvc.perform(put("/api/v2/clientes/1")
                         .header("Authorization", TOKEN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
@@ -163,7 +163,7 @@ class ClienteControllerTest {
     void debeEliminarCliente() throws Exception {
         doNothing().when(clienteService).eliminar(1L);
 
-        mockMvc.perform(delete("/api/clientes/1"))
+        mockMvc.perform(delete("/api/v2/clientes/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.message").value("Cliente eliminado"));

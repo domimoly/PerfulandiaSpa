@@ -71,7 +71,7 @@ class TicketSoporteControllerTest {
 
         when(tsService.listar(TOKEN)).thenReturn(List.of(ticket));
 
-        mockMvc.perform(get("/api/tickets")
+        mockMvc.perform(get("/api/v2/tickets")
                         .header("Authorization", TOKEN))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
@@ -93,7 +93,7 @@ class TicketSoporteControllerTest {
 
         when(tsService.obtener(1L, TOKEN)).thenReturn(ticket);
 
-        mockMvc.perform(get("/api/tickets/1")
+        mockMvc.perform(get("/api/v2/tickets/1")
                         .header("Authorization", TOKEN))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
@@ -121,7 +121,7 @@ class TicketSoporteControllerTest {
 
         when(tsService.crear(any(TicketSoporteDTO.class), eq(TOKEN))).thenReturn(creado);
 
-        mockMvc.perform(post("/api/tickets")
+        mockMvc.perform(post("/api/v2/tickets")
                         .header("Authorization", TOKEN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
@@ -136,7 +136,7 @@ class TicketSoporteControllerTest {
     void debeRetornar400SiDatosInvalidos() throws Exception {
         TicketSoporteDTO dtoInvalido = new TicketSoporteDTO();
 
-        mockMvc.perform(post("/api/tickets")
+        mockMvc.perform(post("/api/v2/tickets")
                         .header("Authorization", TOKEN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dtoInvalido)))
@@ -163,7 +163,7 @@ class TicketSoporteControllerTest {
         when(tsService.actualizar(eq(1L), any(TicketSoporteDTO.class), eq(TOKEN)))
                 .thenReturn(actualizado);
 
-        mockMvc.perform(put("/api/tickets/1")
+        mockMvc.perform(put("/api/v2/tickets/1")
                         .header("Authorization", TOKEN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
@@ -178,7 +178,7 @@ class TicketSoporteControllerTest {
     void debeEliminarTicket() throws Exception {
         doNothing().when(tsService).eliminar(1L);
 
-        mockMvc.perform(delete("/api/tickets/1"))
+        mockMvc.perform(delete("/api/v2/tickets/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.message").value("Ticket eliminado"));

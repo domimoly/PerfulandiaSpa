@@ -69,7 +69,7 @@ class ResenaControllerTest {
 
         when(resenaService.listar(TOKEN)).thenReturn(List.of(resena));
 
-        mockMvc.perform(get("/api/resenas")
+        mockMvc.perform(get("/api/v2/resenas")
                         .header("Authorization", TOKEN))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
@@ -89,7 +89,7 @@ class ResenaControllerTest {
 
         when(resenaService.obtener(1L, TOKEN)).thenReturn(resena);
 
-        mockMvc.perform(get("/api/resenas/1")
+        mockMvc.perform(get("/api/v2/resenas/1")
                         .header("Authorization", TOKEN))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
@@ -116,7 +116,7 @@ class ResenaControllerTest {
 
         when(resenaService.crear(any(ResenaDTO.class), eq(TOKEN))).thenReturn(creada);
 
-        mockMvc.perform(post("/api/resenas")
+        mockMvc.perform(post("/api/v2/resenas")
                         .header("Authorization", TOKEN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
@@ -131,7 +131,7 @@ class ResenaControllerTest {
     void debeRetornar400SiDatosInvalidos() throws Exception {
         ResenaDTO dtoInvalido = new ResenaDTO();
 
-        mockMvc.perform(post("/api/resenas")
+        mockMvc.perform(post("/api/v2/resenas")
                         .header("Authorization", TOKEN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dtoInvalido)))
@@ -156,7 +156,7 @@ class ResenaControllerTest {
         when(resenaService.actualizar(eq(1L), any(ResenaDTO.class), eq(TOKEN)))
                 .thenReturn(actualizada);
 
-        mockMvc.perform(put("/api/resenas/1")
+        mockMvc.perform(put("/api/v2/resenas/1")
                         .header("Authorization", TOKEN)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
@@ -171,7 +171,7 @@ class ResenaControllerTest {
     void debeEliminarResena() throws Exception {
         doNothing().when(resenaService).eliminar(1L);
 
-        mockMvc.perform(delete("/api/resenas/1"))
+        mockMvc.perform(delete("/api/v2/resenas/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.message").value("Reseña eliminada"));
