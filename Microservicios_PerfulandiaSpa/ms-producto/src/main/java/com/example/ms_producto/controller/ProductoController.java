@@ -2,12 +2,11 @@ package com.example.ms_producto.controller;
 
 import java.util.List;
 
-// Swagger
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
-// hateoas
 import org.springframework.hateoas.EntityModel;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -86,9 +85,11 @@ public class ProductoController {
         @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Producto no encontrado"),
         @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "No autenticado")
     })
+    
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<ApiResponse<EntityModel<ProductoResponse>>> obtener(
+            @Parameter(description = "ID del producto a obtener", example = "1")
             @PathVariable Long id,
             @RequestHeader("Authorization") String token) {
 
@@ -118,6 +119,7 @@ public class ProductoController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<ProductoResponse>> actualizar(
+            @Parameter(description = "ID del producto a actualizar", example = "1")
             @PathVariable Long id,
             @Valid @RequestBody ProductoDTO dto,
             @RequestHeader("Authorization") String token) {
@@ -139,7 +141,9 @@ public class ProductoController {
     })
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<Void>> eliminar(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<Void>> eliminar(
+            @Parameter(description = "ID del producto a eliminar", example = "1")
+            @PathVariable Long id) {
 
         productoService.eliminar(id);
         return ResponseEntity.ok(

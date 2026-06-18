@@ -4,8 +4,9 @@ import java.util.List;
 
 // Swagger
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 // HATEOAS
 import org.springframework.hateoas.EntityModel;
@@ -90,6 +91,7 @@ public class ProveedorController {
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<ApiResponse<EntityModel<ProveedorResponse>>> obtener(
+            @Parameter(description = "ID del proveedor a obtener", example = "1")
             @PathVariable Long id,
             @RequestHeader("Authorization") String token) {
 
@@ -116,9 +118,11 @@ public class ProveedorController {
         @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "Proveedor no encontrado"),
         @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "403", description = "Acceso denegado")
     })
+
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<ProveedorResponse>> actualizar(
+            @Parameter(description = "ID del proveedor a actualizar", example = "1")
             @PathVariable Long id,
             @Valid @RequestBody ProveedorDTO dto,
             @RequestHeader("Authorization") String token) {
@@ -140,7 +144,9 @@ public class ProveedorController {
     })
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<Void>> eliminar(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<Void>> eliminar(
+            @Parameter(description = "ID del proveedor a eliminar", example = "1")
+            @PathVariable Long id) {
 
         proveedorService.eliminar(id);
         return ResponseEntity.ok(

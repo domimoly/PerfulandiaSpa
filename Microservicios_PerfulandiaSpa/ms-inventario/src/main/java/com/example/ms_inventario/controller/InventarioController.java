@@ -4,6 +4,7 @@ import java.util.List;
 
 // Swagger
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
@@ -89,6 +90,7 @@ public class InventarioController {
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<ApiResponse<EntityModel<InventarioResponse>>> obtener(
+            @Parameter(description = "ID del inventario a obtener", example = "1")
             @PathVariable Long id,
             @RequestHeader("Authorization") String token) {
 
@@ -118,6 +120,7 @@ public class InventarioController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<InventarioResponse>> actualizar(
+            @Parameter(description = "ID del inventario a actualizar", example = "1")
             @PathVariable Long id,
             @Valid @RequestBody InventarioDTO dto,
             @RequestHeader("Authorization") String token) {
@@ -139,7 +142,9 @@ public class InventarioController {
     })
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<Void>> eliminar(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<Void>> eliminar(
+            @Parameter(description = "ID del inventario a eliminar", example = "1")
+            @PathVariable Long id) {
 
         invService.eliminar(id);
         return ResponseEntity.ok(

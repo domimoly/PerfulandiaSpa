@@ -2,12 +2,11 @@ package com.example.ms_categoria.controller;
 
 import java.util.List;
 
-// Swagger
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
-// HATEOAS
 import org.springframework.hateoas.EntityModel;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
@@ -85,7 +84,9 @@ public class CategoriaController {
     })
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-    public ResponseEntity<ApiResponse<EntityModel<Categoria>>> obtener(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<EntityModel<Categoria>>> obtener(
+            @Parameter(description = "ID de la categoría a obtener", example = "1")
+            @PathVariable Long id) {
 
         Categoria categoria = categoriaService.obtener(id);
         EntityModel<Categoria> recurso = EntityModel.of(categoria);
@@ -113,6 +114,7 @@ public class CategoriaController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<Categoria>> actualizar(
+            @Parameter(description = "ID de la categoría a actualizar", example = "1")
             @PathVariable Long id,
             @Valid @RequestBody CategoriaDTO dto) {
 
@@ -134,7 +136,9 @@ public class CategoriaController {
     })
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<Void>> eliminar(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<Void>> eliminar(
+            @Parameter(description = "ID de la categoría a eliminar", example = "1")
+            @PathVariable Long id) {
 
         categoriaService.eliminar(id);
         return ResponseEntity.ok(

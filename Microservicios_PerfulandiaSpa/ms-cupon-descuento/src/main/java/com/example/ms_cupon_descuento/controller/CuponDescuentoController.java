@@ -4,6 +4,7 @@ import java.util.List;
 
 // Swagger
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
@@ -81,6 +82,7 @@ public class CuponDescuentoController {
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     public ResponseEntity<ApiResponse<EntityModel<CuponResponse>>> obtener(
+            @Parameter(description = "ID del cupón a obtener", example = "1")
             @PathVariable Long id,
             @RequestHeader("Authorization") String token) {
 
@@ -110,6 +112,7 @@ public class CuponDescuentoController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<CuponResponse>> actualizar(
+            @Parameter(description = "ID del cupón a actualizar", example = "1")
             @PathVariable Long id,
             @Valid @RequestBody CuponDescuentoDTO dto,
             @RequestHeader("Authorization") String token) {
@@ -131,7 +134,9 @@ public class CuponDescuentoController {
     })
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<Void>> eliminar(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<Void>> eliminar(
+            @Parameter(description = "ID del producto a eliminar", example = "1")
+            @PathVariable Long id) {
 
         cuponService.eliminar(id);
         return ResponseEntity.ok(
