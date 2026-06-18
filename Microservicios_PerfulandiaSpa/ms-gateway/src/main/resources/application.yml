@@ -1,0 +1,63 @@
+spring:
+  application:
+    name: ms-gateway
+
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+            - id: ms-auth
+              uri: lb://ms-auth
+              predicates:
+                - Path=/auth/**
+
+            - id: ms-categoria
+              uri: lb://ms-categoria
+              predicates:
+                - Path=/api/v2/categorias/**
+
+            - id: ms-producto
+              uri: lb://ms-producto
+              predicates:
+                - Path=/api/v2/productos/**
+
+            - id: ms-proveedor
+              uri: lb://ms-proveedor
+              predicates:
+                - Path=/api/v2/proveedores/**
+
+            - id: ms-inventario
+              uri: lb://ms-inventario
+              predicates:
+                - Path=/api/v2/inventarios/**
+
+            - id: ms-cupon-descuento
+              uri: lb://ms-cupon-descuento
+              predicates:
+                - Path=/api/v2/cupones/**
+
+            - id: ms-devolucion
+              uri: lb://ms-devolucion
+              predicates:
+                - Path=/api/v2/devoluciones/**
+
+            - id: ms-orden
+              uri: lb://ms-orden
+              predicates:
+                - Path=/api/v2/ordenes/**
+
+            - id: ms-sucursal
+              uri: lb://ms-sucursal
+              predicates:
+                - Path=/api/v2/sucursales/**
+
+server:
+  port: 8080
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: true
