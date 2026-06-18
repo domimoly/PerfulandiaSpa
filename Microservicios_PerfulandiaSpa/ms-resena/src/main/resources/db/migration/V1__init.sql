@@ -1,4 +1,4 @@
-CREATE TABLE resena (
+sqlCREATE TABLE resena (
     id BIGINT NOT NULL AUTO_INCREMENT,
     puntuacion INTEGER,
     comentario TEXT,
@@ -8,6 +8,7 @@ CREATE TABLE resena (
 );
 
 INSERT INTO resena (puntuacion, comentario, fecha_resena, usuario_id)
-VALUES (5, 'Excelente perfume', '2025-05-01', 1);
+VALUES (5, 'Excelente perfume', '2026-05-01', 1);
+
 INSERT INTO resena (puntuacion, comentario, fecha_resena, usuario_id)
-VALUES (4, 'Muy buena fragancia', '2025-05-02', 2);
+VALUES (4, 'Muy buena fragancia', '2026-05-02', 2);
