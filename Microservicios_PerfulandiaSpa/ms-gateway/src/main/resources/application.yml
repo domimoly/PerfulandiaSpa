@@ -51,6 +51,27 @@ spring:
               uri: lb://ms-sucursal
               predicates:
                 - Path=/api/v2/sucursales/**
+                
+            - id: ms-usuario
+              uri: lb://ms-usuario
+              predicates:
+                - Path=/api/v2/usuarios/**
+
+            - id: ms-cliente
+              uri: lb://ms-cliente
+              predicates:
+                - Path=/api/v2/clientes/**
+
+            - id: ms-resena
+              uri: lb://ms-resena
+              predicates:
+                - Path=/api/v2/resenas/**
+
+            - id: ms-ticket-soporte
+              uri: lb://ms-ticket-soporte
+              predicates:
+                - Path=/api/v2/tickets/**
+
 
 server:
   port: 8082
