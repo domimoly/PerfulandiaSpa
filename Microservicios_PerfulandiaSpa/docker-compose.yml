@@ -1,0 +1,16 @@
+services:
+  mysql-auth:
+  image: mysql:8
+  container_name: mysql-auth
+  restart: unless-stopped
+  environment:
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_DATABASE: ms-user
+    MYSQL_USER: appuser
+    MYSQL_PASSWORD: 1234
+    ports:
+    - "3307:3306"
+    volumes:
+    - mysql_auth_data:/var/lib/mysql
+    networks:
+    - backend-network
