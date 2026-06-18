@@ -14,7 +14,7 @@ public class CategoriaClient {
 
     private final WebClient webClient;
 
-    private final String BASE_URL = "http://localhost:8094/api/v2/categorias/";
+    private final String BASE_URL = "http://localhost:8084/api/v2/categorias/";
 
     public CategoriaResponse obtenerCategoria(Long id, String token) {
         ApiResponse<CategoriaResponse> response = webClient.get()

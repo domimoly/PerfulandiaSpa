@@ -14,7 +14,7 @@ public class ProveedorClient {
 
     private final WebClient webClient;
 
-    private final String BASE_URL = "http://localhost:8089/api/v2/proveedores/";
+    private final String BASE_URL = "http://localhost:8091/api/v2/proveedores/";
 
     public ProveedorResponse obtenerProveedor(Long id, String token) {
         ApiResponse<ProveedorResponse> response = webClient.get()
