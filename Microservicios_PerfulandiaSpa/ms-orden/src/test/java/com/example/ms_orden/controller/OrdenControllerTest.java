@@ -24,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.example.ms_orden.dto.OrdenDTO;
 import com.example.ms_orden.model.Orden;
+import com.example.ms_orden.security.JwtUtil;
 import com.example.ms_orden.service.OrdenService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -40,6 +41,9 @@ class OrdenControllerTest {
     @MockitoBean
     private OrdenService service;
 
+    @MockitoBean
+    private JwtUtil jwtUtil;
+    // Agregar para funcionamiento de cada Test
     @TestConfiguration
     static class TestConfig {
         @Bean
@@ -51,7 +55,7 @@ class OrdenControllerTest {
     @Test
     void debeListarOrdenes() throws Exception {
         List<Orden> ordenes = List.of(
-                new Orden(null, 1, "2026-03-20", "2026-03-23", 115000, 0)
+                new Orden(1L, 1, "2026-03-20", "2026-03-23", 115000, 0)
         );
 
         when(service.listar()).thenReturn(ordenes);

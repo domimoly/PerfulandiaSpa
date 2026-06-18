@@ -8,8 +8,10 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.example.ms_sucursal.dto.SucursalDTO;
 import com.example.ms_sucursal.model.Sucursal;
+import com.example.ms_sucursal.security.JwtUtil;
 import com.example.ms_sucursal.service.SucursalService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -38,10 +41,21 @@ class SucursalControllerTest {
     @MockitoBean
     private SucursalService service;
 
+    @MockitoBean
+    private JwtUtil jwtUtil;
+    // Agregar para funcionamiento de cada Test
+    @TestConfiguration
+    static class TestConfig {
+        @Bean
+        public ObjectMapper objectMapper() {
+            return new ObjectMapper();
+        }
+    }
+
     @Test
     void debeListarSucursales() throws Exception {
         List<Sucursal> sucursales = List.of(
-                new Sucursal(null, "Barrio Meiggs", "Barrio Meiggs, Santiago", "Lun-Sab 9:00-20:00", "Devolucion con boleta en 30 dias")
+            new Sucursal(1L, "Barrio Meiggs", "Barrio Meiggs, Santiago", "Lun-Sab 9:00-20:00", "Devolucion con boleta en 30 dias")
         );
 
         when(service.listar()).thenReturn(sucursales);

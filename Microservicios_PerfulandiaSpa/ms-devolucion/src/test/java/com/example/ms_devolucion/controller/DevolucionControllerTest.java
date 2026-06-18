@@ -8,8 +8,10 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.example.ms_devolucion.dto.DevolucionDTO;
 import com.example.ms_devolucion.model.Devolucion;
+import com.example.ms_devolucion.security.JwtUtil;
 import com.example.ms_devolucion.service.DevolucionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -37,6 +40,17 @@ class DevolucionControllerTest {
 
     @MockitoBean
     private DevolucionService service;
+
+    @MockitoBean
+    private JwtUtil jwtUtil;
+    // Agregar para funcionamiento de cada Test
+    @TestConfiguration
+    static class TestConfig {
+        @Bean
+        public ObjectMapper objectMapper() {
+            return new ObjectMapper();
+        }
+    }
 
     @Test
     void debeListarDevoluciones() throws Exception {
@@ -65,7 +79,7 @@ class DevolucionControllerTest {
         mockMvc.perform(get("/api/v2/devoluciones/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.message").value("Devolucion obtenida"))
+                .andExpect(jsonPath("$.message").value("Devolución obtenida"))
                 .andExpect(jsonPath("$.data.id").value(1))
                 .andExpect(jsonPath("$.data.fechaDevolucion").value("2026-05-09"))
                 .andExpect(jsonPath("$.data.motivo").value("Producto defectuoso"))
@@ -88,7 +102,7 @@ class DevolucionControllerTest {
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.message").value("Devolucion creada"))
+                .andExpect(jsonPath("$.message").value("Devolución generada"))
                 .andExpect(jsonPath("$.data.fechaDevolucion").value("2026-05-09"))
                 .andExpect(jsonPath("$.data.motivo").value("Producto defectuoso"))
                 .andExpect(jsonPath("$.data.estado").value("Pendiente"));
@@ -110,7 +124,7 @@ class DevolucionControllerTest {
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.message").value("Devolucion actualizada"))
+                .andExpect(jsonPath("$.message").value("Devolución actualizada"))
                 .andExpect(jsonPath("$.data.fechaDevolucion").value("2026-05-09"))
                 .andExpect(jsonPath("$.data.motivo").value("Producto defectuoso"))
                 .andExpect(jsonPath("$.data.estado").value("Aprobada"));
@@ -123,6 +137,6 @@ class DevolucionControllerTest {
         mockMvc.perform(delete("/api/v2/devoluciones/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.message").value("Devolucion eliminada"));
+                .andExpect(jsonPath("$.message").value("Devolución eliminada"));
     }
 }
