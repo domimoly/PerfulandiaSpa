@@ -1,16 +1,530 @@
 services:
+  # ─────────────────────────────────────────
+  # BASES DE DATOS MySQL (una por microservicio)
+  # ─────────────────────────────────────────
   mysql-auth:
-  image: mysql:8
-  container_name: mysql-auth
-  restart: unless-stopped
-  environment:
-    MYSQL_ROOT_PASSWORD: root
-    MYSQL_DATABASE: ms-user
-    MYSQL_USER: appuser
-    MYSQL_PASSWORD: 1234
+    image: mysql:8
+    container_name: mysql-auth
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ms-user
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: 1234
     ports:
-    - "3307:3306"
+      - "3307:3306"
     volumes:
-    - mysql_auth_data:/var/lib/mysql
+      - mysql_auth_data:/var/lib/mysql
     networks:
-    - backend-network
+      - backend-network
+
+  mysql-cliente:
+    image: mysql:8
+    container_name: mysql-cliente
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ms-cliente
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql_cliente_data:/var/lib/mysql
+    networks:
+      - backend-network
+
+  mysql-sucursal:
+    image: mysql:8
+    container_name: mysql-sucursal
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ms-sucursal
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3309:3306"
+    volumes:
+      - mysql_sucursal_data:/var/lib/mysql
+    networks:
+      - backend-network
+
+  mysql-categoria:
+    image: mysql:8
+    container_name: mysql-categoria
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ms-categoria
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3310:3306"
+    volumes:
+      - mysql_categoria_data:/var/lib/mysql
+    networks:
+      - backend-network
+
+  mysql-producto:
+    image: mysql:8
+    container_name: mysql-producto
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ms-producto
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3311:3306"
+    volumes:
+      - mysql_producto_data:/var/lib/mysql
+    networks:
+      - backend-network
+
+  mysql-proveedor:
+    image: mysql:8
+    container_name: mysql-proveedor
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ms-proveedor
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3312:3306"
+    volumes:
+      - mysql_proveedor_data:/var/lib/mysql
+    networks:
+      - backend-network
+
+  mysql-inventario:
+    image: mysql:8
+    container_name: mysql-inventario
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ms-inventario
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3313:3306"
+    volumes:
+      - mysql_inventario_data:/var/lib/mysql
+    networks:
+      - backend-network
+
+  mysql-cupon:
+    image: mysql:8
+    container_name: mysql-cupon
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ms-cupon-descuento
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3314:3306"
+    volumes:
+      - mysql_cupon_data:/var/lib/mysql
+    networks:
+      - backend-network
+
+  mysql-orden:
+    image: mysql:8
+    container_name: mysql-orden
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ms-orden
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3315:3306"
+    volumes:
+      - mysql_orden_data:/var/lib/mysql
+    networks:
+      - backend-network
+
+  mysql-devolucion:
+    image: mysql:8
+    container_name: mysql-devolucion
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ms-devolucion
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3316:3306"
+    volumes:
+      - mysql_devolucion_data:/var/lib/mysql
+    networks:
+      - backend-network
+
+  mysql-resena:
+    image: mysql:8
+    container_name: mysql-resena
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ms-resena
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3317:3306"
+    volumes:
+      - mysql_resena_data:/var/lib/mysql
+    networks:
+      - backend-network
+
+  mysql-ticket:
+    image: mysql:8
+    container_name: mysql-ticket
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ms-ticket-soporte
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3318:3306"
+    volumes:
+      - mysql_ticket_data:/var/lib/mysql
+    networks:
+      - backend-network
+
+  mysql-usuario:
+    image: mysql:8
+    container_name: mysql-usuario
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ms-usuario
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3319:3306"
+    volumes:
+      - mysql_usuario_data:/var/lib/mysql
+    networks:
+      - backend-network
+
+  # ─────────────────────────────────────────
+  # INFRAESTRUCTURA
+  # ─────────────────────────────────────────
+
+  ms-eureka:
+    build: ./ms-eureka
+    container_name: ms-eureka
+    restart: unless-stopped
+    ports:
+      - "8761:8761"
+    networks:
+      - backend-network
+
+  ms-gateway:
+    build: ./ms-gateway
+    container_name: ms-gateway
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      EUREKA_URL: http://ms-eureka:8761/eureka/
+    depends_on:
+      - ms-eureka
+    networks:
+      - backend-network
+
+  # ─────────────────────────────────────────
+  # MICROSERVICIOS
+  # ─────────────────────────────────────────
+
+  ms-auth:
+    build: ./ms-auth
+    container_name: ms-auth
+    restart: unless-stopped
+    ports:
+      - "8083:8083"
+    environment:
+      DB_HOST: mysql-auth
+      DB_PORT: 3306
+      DB_NAME: ms-user
+      DB_USER: appuser
+      DB_PASSWORD: 1234
+      JWT_SECRET: u1tocZpNfuILDtiuMYperfume1u4pKL9D
+      EUREKA_URL: http://ms-eureka:8761/eureka/
+    depends_on:
+      - mysql-auth
+      - ms-eureka
+    networks:
+      - backend-network
+
+  ms-cliente:
+    build: ./ms-cliente
+    container_name: ms-cliente
+    restart: unless-stopped
+    ports:
+      - "8085:8085"
+    environment:
+      DB_HOST: mysql-cliente
+      DB_PORT: 3306
+      DB_NAME: ms-cliente
+      DB_USER: appuser
+      DB_PASSWORD: 1234
+      JWT_SECRET: u1tocZpNfuILDtiuMYperfume1u4pKL9D
+      EUREKA_URL: http://ms-eureka:8761/eureka/
+    depends_on:
+      - mysql-cliente
+      - ms-eureka
+    networks:
+      - backend-network
+
+  ms-sucursal:
+    build: ./ms-sucursal
+    container_name: ms-sucursal
+    restart: unless-stopped
+    ports:
+      - "8093:8093"
+    environment:
+      DB_HOST: mysql-sucursal
+      DB_PORT: 3306
+      DB_NAME: ms-sucursal
+      DB_USER: appuser
+      DB_PASSWORD: 1234
+      JWT_SECRET: u1tocZpNfuILDtiuMYperfume1u4pKL9D
+      EUREKA_URL: http://ms-eureka:8761/eureka/
+    depends_on:
+      - mysql-sucursal
+      - ms-eureka
+    networks:
+      - backend-network
+
+  ms-categoria:
+    build: ./ms-categoria
+    container_name: ms-categoria
+    restart: unless-stopped
+    ports:
+      - "8084:8084"
+    environment:
+      DB_HOST: mysql-categoria
+      DB_PORT: 3306
+      DB_NAME: ms-categoria
+      DB_USER: appuser
+      DB_PASSWORD: 1234
+      JWT_SECRET: u1tocZpNfuILDtiuMYperfume1u4pKL9D
+      EUREKA_URL: http://ms-eureka:8761/eureka/
+    depends_on:
+      - mysql-categoria
+      - ms-eureka
+    networks:
+      - backend-network
+
+  ms-producto:
+    build: ./ms-producto
+    container_name: ms-producto
+    restart: unless-stopped
+    ports:
+      - "8090:8090"
+    environment:
+      DB_HOST: mysql-producto
+      DB_PORT: 3306
+      DB_NAME: ms-producto
+      DB_USER: appuser
+      DB_PASSWORD: 1234
+      JWT_SECRET: u1tocZpNfuILDtiuMYperfume1u4pKL9D
+      EUREKA_URL: http://ms-eureka:8761/eureka/
+    depends_on:
+      - mysql-producto
+      - ms-eureka
+      - ms-categoria
+    networks:
+      - backend-network
+
+  ms-proveedor:
+    build: ./ms-proveedor
+    container_name: ms-proveedor
+    restart: unless-stopped
+    ports:
+      - "8091:8091"
+    environment:
+      DB_HOST: mysql-proveedor
+      DB_PORT: 3306
+      DB_NAME: ms-proveedor
+      DB_USER: appuser
+      DB_PASSWORD: 1234
+      JWT_SECRET: u1tocZpNfuILDtiuMYperfume1u4pKL9D
+      EUREKA_URL: http://ms-eureka:8761/eureka/
+    depends_on:
+      - mysql-proveedor
+      - ms-eureka
+      - ms-sucursal
+      - ms-producto
+    networks:
+      - backend-network
+
+  ms-inventario:
+    build: ./ms-inventario
+    container_name: ms-inventario
+    restart: unless-stopped
+    ports:
+      - "8088:8088"
+    environment:
+      DB_HOST: mysql-inventario
+      DB_PORT: 3306
+      DB_NAME: ms-inventario
+      DB_USER: appuser
+      DB_PASSWORD: 1234
+      JWT_SECRET: u1tocZpNfuILDtiuMYperfume1u4pKL9D
+      EUREKA_URL: http://ms-eureka:8761/eureka/
+    depends_on:
+      - mysql-inventario
+      - ms-eureka
+      - ms-producto
+      - ms-sucursal
+      - ms-proveedor
+    networks:
+      - backend-network
+
+  ms-cupon-descuento:
+    build: ./ms-cupon-descuento
+    container_name: ms-cupon-descuento
+    restart: unless-stopped
+    ports:
+      - "8086:8086"
+    environment:
+      DB_HOST: mysql-cupon
+      DB_PORT: 3306
+      DB_NAME: ms-cupon-descuento
+      DB_USER: appuser
+      DB_PASSWORD: 1234
+      JWT_SECRET: u1tocZpNfuILDtiuMYperfume1u4pKL9D
+      EUREKA_URL: http://ms-eureka:8761/eureka/
+    depends_on:
+      - mysql-cupon
+      - ms-eureka
+      - ms-categoria
+    networks:
+      - backend-network
+
+  ms-orden:
+    build: ./ms-orden
+    container_name: ms-orden
+    restart: unless-stopped
+    ports:
+      - "8089:8089"
+    environment:
+      DB_HOST: mysql-orden
+      DB_PORT: 3306
+      DB_NAME: ms-orden
+      DB_USER: appuser
+      DB_PASSWORD: 1234
+      JWT_SECRET: u1tocZpNfuILDtiuMYperfume1u4pKL9D
+      EUREKA_URL: http://ms-eureka:8761/eureka/
+    depends_on:
+      - mysql-orden
+      - ms-eureka
+    networks:
+      - backend-network
+
+  ms-devolucion:
+    build: ./ms-devolucion
+    container_name: ms-devolucion
+    restart: unless-stopped
+    ports:
+      - "8087:8087"
+    environment:
+      DB_HOST: mysql-devolucion
+      DB_PORT: 3306
+      DB_NAME: ms-devolucion
+      DB_USER: appuser
+      DB_PASSWORD: 1234
+      JWT_SECRET: u1tocZpNfuILDtiuMYperfume1u4pKL9D
+      EUREKA_URL: http://ms-eureka:8761/eureka/
+    depends_on:
+      - mysql-devolucion
+      - ms-eureka
+    networks:
+      - backend-network
+
+  ms-resena:
+    build: ./ms-resena
+    container_name: ms-resena
+    restart: unless-stopped
+    ports:
+      - "8092:8092"
+    environment:
+      DB_HOST: mysql-resena
+      DB_PORT: 3306
+      DB_NAME: ms-resena
+      DB_USER: appuser
+      DB_PASSWORD: 1234
+      JWT_SECRET: u1tocZpNfuILDtiuMYperfume1u4pKL9D
+      EUREKA_URL: http://ms-eureka:8761/eureka/
+    depends_on:
+      - mysql-resena
+      - ms-eureka
+    networks:
+      - backend-network
+
+  ms-ticket-soporte:
+    build: ./ms-ticket-soporte
+    container_name: ms-ticket-soporte
+    restart: unless-stopped
+    ports:
+      - "8094:8094"
+    environment:
+      DB_HOST: mysql-ticket
+      DB_PORT: 3306
+      DB_NAME: ms-ticket-soporte
+      DB_USER: appuser
+      DB_PASSWORD: 1234
+      JWT_SECRET: u1tocZpNfuILDtiuMYperfume1u4pKL9D
+      EUREKA_URL: http://ms-eureka:8761/eureka/
+    depends_on:
+      - mysql-ticket
+      - ms-eureka
+    networks:
+      - backend-network
+
+  ms-usuario:
+    build: ./ms-usuario
+    container_name: ms-usuario
+    restart: unless-stopped
+    ports:
+      - "8094:8094"
+    environment:
+      DB_HOST: mysql-usuario
+      DB_PORT: 3306
+      DB_NAME: ms-usuario
+      DB_USER: appuser
+      DB_PASSWORD: 1234
+      JWT_SECRET: u1tocZpNfuILDtiuMYperfume1u4pKL9D
+      EUREKA_URL: http://ms-eureka:8761/eureka/
+    depends_on:
+      - mysql-usuario
+      - ms-eureka
+    networks:
+      - backend-network
+
+# ─────────────────────────────────────────
+# RED Y VOLÚMENES
+# ─────────────────────────────────────────
+
+networks:
+  backend-network:
+
+volumes:
+  mysql_auth_data:
+  mysql_cliente_data:
+  mysql_sucursal_data:
+  mysql_categoria_data:
+  mysql_producto_data:
+  mysql_proveedor_data:
+  mysql_inventario_data:
+  mysql_cupon_data:
+  mysql_orden_data:
+  mysql_devolucion_data:
+  mysql_resena_data:
+  mysql_ticket_data:
+  mysql_usuario_data:
