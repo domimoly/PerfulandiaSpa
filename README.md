@@ -60,7 +60,49 @@ Todas las solicitudes pasan por `http://localhost:8080` y se enrutan automática
 
 ---
 
+## Documentación Swagger / OpenAPI
 
+Cada microservicio expone su propia documentación interactiva:
+
+| Microservicio | URL Swagger (local) |
+|---|---|
+| ms-auth | http://localhost:8083/swagger-ui.html |
+| ms-categoria | http://localhost:8084/swagger-ui.html |
+| ms-cliente | http://localhost:8085/swagger-ui.html |
+| ms-cupon-descuento | http://localhost:8086/swagger-ui.html |
+| ms-devolucion | http://localhost:8087/swagger-ui.html |
+| ms-inventario | http://localhost:8088/swagger-ui.html |
+| ms-orden | http://localhost:8089/swagger-ui.html |
+| ms-producto | http://localhost:8090/swagger-ui.html |
+| ms-proveedor | http://localhost:8091/swagger-ui.html |
+| ms-resena | http://localhost:8092/swagger-ui.html |
+| ms-sucursal | http://localhost:8093/swagger-ui.html |
+| ms-ticket-soporte | http://localhost:8094/swagger-ui.html |
+| ms-usuario | http://localhost:8095/swagger-ui.html |
+
+---
+
+## Pruebas Unitarias
+
+Cada microservicio cuenta con pruebas unitarias (JUnit + Mockito) organizadas en tres capas:
+
+- `serviceTest/` — lógica de negocio
+- `repositoryTest/` — persistencia con H2
+- `controllerTest/` — endpoints con MockMvc
+
+Para ejecutar las pruebas y generar el reporte de cobertura JaCoCo:
+
+```bash
+cd ms-categoria
+mvn clean test
+```
+
+El reporte se genera en:
+```
+target/site/jacoco/index.html
+```
+
+---
 
 ## Stack Tecnológico utilizado para el desarrollo del proyecto:
 
