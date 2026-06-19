@@ -19,6 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -125,21 +126,22 @@ class OrdenControllerTest {
         dto.setTotal(115000);
         dto.setDescuentoAplicado(0);
 
-        Orden actualizada = new Orden(1L, 1, "2026-03-20", "2026-03-23", 115000, 0);
+        Orden actualizada = new Orden(1L, 1, "2026-03-24", "2026-03-27", 130000, 5000);
 
         when(service.actualizar(eq(1L), any(OrdenDTO.class))).thenReturn(actualizada);
 
         mockMvc.perform(put("/api/v2/ordenes/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.message").value("Orden actualizada"))
                 .andExpect(jsonPath("$.data.numeroOrden").value(1))
-                .andExpect(jsonPath("$.data.fechaCreacion").value("2026-03-20"))
-                .andExpect(jsonPath("$.data.fechaRecibida").value("2026-03-23"))
-                .andExpect(jsonPath("$.data.total").value(115000))
-                .andExpect(jsonPath("$.data.descuentoAplicado").value(0));
+                .andExpect(jsonPath("$.data.fechaCreacion").value("2026-03-24"))
+                .andExpect(jsonPath("$.data.fechaRecibida").value("2026-03-27"))
+                .andExpect(jsonPath("$.data.total").value(130000))
+                .andExpect(jsonPath("$.data.descuentoAplicado").value(5000));
     }
 
     @Test

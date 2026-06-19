@@ -49,11 +49,12 @@ public class OrdenController {
     public ResponseEntity<ApiResponse<Orden>> crear(@Valid @RequestBody OrdenDTO dto) {
         
         Orden orden = ordenService.crear(dto);
+
         return ResponseEntity.status(201).body(
                 ApiResponse.<Orden>builder()
                         .success(true)
-                        .message("Orden Creada")
-                        .data(orden)
+                        .message("Orden creada")
+                        .data(orden) 
                         .build()
         );
     }

@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class OrdenDTO {
     
-    @NotBlank(message= "El número de orden es obligatorio")
+    @NotNull(message= "El número de orden es obligatorio")
     private int numeroOrden;
     
     @NotNull(message= "La fecha de creación es obligatoria")
