@@ -21,20 +21,20 @@ La arquitectura centraliza el acceso a todos los servicios a través de un **API
 | # | Microservicio | Puerto | Base de datos |
 |---|---|---|---|
 | 1 | ms-eureka | 8761 | — |
-| 2 | ms-gateway | 8080 | — |
-| 3 | ms-auth | 8082 | ms-user |
-| 4 | ms-cliente | 8083 | ms-cliente |
-| 5 | ms-cupon-descuento | 8084 | ms-cupon-descuento |
-| 6 | ms-devolucion | 8085 | ms-devolucion |
-| 7 | ms-inventario | 8086 | ms-inventario |
-| 8 | ms-orden | 8087 | ms-orden |
-| 9 | ms-producto | 8088 | ms-producto |
-| 10 | ms-proveedor | 8089 | ms-proveedor |
-| 11 | ms-resena | 8090 | ms-resena |
-| 12 | ms-sucursal | 8091 | ms-sucursal |
-| 13 | ms-ticket-soporte | 8092 | ms-ticket-soporte |
-| 14 | ms-usuario | 8093 | ms-usuario |
-| 15 | ms-categoria | 8094 | ms-categoria |
+| 2 | ms-gateway | 8082 | — |
+| 3 | ms-auth | 8083 | ms-user |
+| 4 | ms-categoria | 8084 | ms-categoria |
+| 5 | ms-cliente | 8085 | ms-cliente |
+| 6 | ms-cupon-descuento | 8086 | ms-cupon-descuento |
+| 7 | ms-devolucion | 8087 | ms-devolucion |
+| 8 | ms-inventario | 8088 | ms-inventario |
+| 9 | ms-orden | 8089 | ms-orden |
+| 10 | ms-producto | 8090 | ms-producto |
+| 11 | ms-proveedor | 8091 | ms-proveedor |
+| 12 | ms-resena | 8092 | ms-resena |
+| 13 | ms-sucursal | 8093 | ms-sucursal |
+| 14 | ms-ticket-soporte | 8094 | ms-ticket-soporte |
+| 15 | ms-usuario | 8095 | ms-usuario |
 
 ---
 
