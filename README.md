@@ -104,6 +104,33 @@ target/site/jacoco/index.html
 
 ---
 
+## Instrucciones de Ejecución (Docker)
+
+### 5.1 Ejecución con Docker / Docker Compose (recomendado)
+
+1. Clonar el repositorio.
+2. Asegurarse de tener **Docker Desktop** instalado y en ejecución.
+3. Generar el `.jar` de cada microservicio:
+   ```bash
+   ./mvnw clean package -DskipTests
+   ```
+4. Desde la raíz del proyecto (donde está `docker-compose.yml`), levantar toda la arquitectura:
+   ```bash
+   docker compose up --build
+   ```
+5. Verificar que los contenedores estén activos:
+   ```bash
+   docker ps
+   ```
+6. Verificar que todos los servicios estén registrados en Eureka: http://localhost:8761
+7. Acceder a la API a través del Gateway: http://localhost:8082
+8. Para detener la arquitectura:
+   ```bash
+   docker compose down
+   ```
+
+---
+
 ## Stack Tecnológico utilizado para el desarrollo del proyecto:
 
 Spring Boot · MySQL · Maven · Docker · Eureka · Spring Cloud Gateway · JUnit · Mockito · Postman · Swagger/OpenAPI
