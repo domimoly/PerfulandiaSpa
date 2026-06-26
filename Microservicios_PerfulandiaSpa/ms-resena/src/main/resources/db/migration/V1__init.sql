@@ -1,4 +1,4 @@
-sqlCREATE TABLE resena (
+CREATE TABLE resena (
     id BIGINT NOT NULL AUTO_INCREMENT,
     puntuacion INTEGER,
     comentario TEXT,
